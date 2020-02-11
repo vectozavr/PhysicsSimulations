@@ -52,7 +52,7 @@ int main() {
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
 
-    unsigned long long N = 10;
+    unsigned long long N = 25;
     double R = 30*100;
     double velocity = 30;
 
