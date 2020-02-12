@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 #include "settings.h"
 #include "gnuplot.h"
@@ -44,10 +45,20 @@ void fourierTransform(const std::vector<Point2D>& data, std::vector<Point2D>& tr
     for(int k = 0; k < data.size(); k++) {
         Point2D transformed = {0, 0};
         for(int n = 0; n < data.size(); n++) {
-            transformed.x += data[n].y*cos(2*PI*k*n/data.size());
-            transformed.y += -data[n].y*sin(2*PI*k*n/data.size());
+            double p = 2 * PI * k * n / data.size();
+
+            transformed.x += data[n].y * cos(p);
+            transformed.y -= data[n].y * sin(p);
         }
-        transform.push_back({data[k].x, transformed.abs()/data.size()});
+        transform.push_back({2 * PI * k / data.size(), transformed.abs() / data.size()});
+    }
+}
+
+void addNoice(std::vector<Point2D>& data, double noiseAmplitude = 0.01) {
+    srand(time(NULL));
+    for(auto d : data) {
+        //d.x += rand()/RAND_MAX;
+        //d.y +=
     }
 }
 
@@ -56,9 +67,16 @@ int main() {
     std::vector<Point2D> transform;
 
     int quantity = 1000;
-    for(int i = 0; i < quantity; i++) {
-        data.push_back({2*PI*(double)i/quantity, sin(2*PI*(double)i/quantity) + sin(8*PI*(double)i/quantity)});
+    for(int i = -quantity; i < quantity; i++) {
+        if(i < -quantity / 10 || i > quantity / 10)
+            data.push_back({(double)i/quantity*10, 0});
+        else
+            data.push_back({(double)i/quantity*10, 1});
     }
+    //for(int i = -quantity; i < quantity; i++) {
+    //    double x = (double)i/quantity * 2 * PI;
+    //    data.push_back({x, sin(x) + sin(5*x)/2});
+    //}
 
     fourierTransform(data, transform);
 
@@ -68,7 +86,7 @@ int main() {
     saveVectorPoint2DToFile(transform, "transform.dat");
 
     GnuplotPipe gp;
-    gp.sendLine(R"(set xrange [-5:10])");
+    gp.sendLine(R"(set xrange [-10:10])");
     gp.sendLine(R"(set yrange [-2:2])");
     gp.sendLine(R"(plot "data.dat" with lines, "transform.dat" with lines)");
 
