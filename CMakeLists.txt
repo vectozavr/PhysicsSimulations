@@ -9,6 +9,7 @@ add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
 
 add_executable(DISCRETE_FOURIER discreteFouriertransform.cpp settings.h gnuplot.h)
+add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h)
 
 
 # SFML Librares

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <cstdlib>
 
 #include "settings.h"
 #include "gnuplot.h"
@@ -54,11 +55,11 @@ void fourierTransform(const std::vector<Point2D>& data, std::vector<Point2D>& tr
     }
 }
 
-void addNoice(std::vector<Point2D>& data, double noiseAmplitude = 0.01) {
-    srand(time(NULL));
-    for(auto d : data) {
-        //d.x += rand()/RAND_MAX;
-        //d.y +=
+void addNoise(std::vector<Point2D>& data, double noiseAmplitude = 0.1) {
+    srand(1235);
+    for(auto& d : data) {
+        //d.x += noiseAmplitude*rand()/RAND_MAX;
+        d.y += noiseAmplitude * rand()/RAND_MAX - noiseAmplitude/2;
     }
 }
 
@@ -78,17 +79,16 @@ int main() {
     //    data.push_back({x, sin(x) + sin(5*x)/2});
     //}
 
+    addNoise(data);
     fourierTransform(data, transform);
-
-
 
     saveVectorPoint2DToFile(data, "data.dat");
     saveVectorPoint2DToFile(transform, "transform.dat");
 
     GnuplotPipe gp;
-    gp.sendLine(R"(set xrange [-10:10])");
-    gp.sendLine(R"(set yrange [-2:2])");
-    gp.sendLine(R"(plot "data.dat" with lines, "transform.dat" with lines)");
+    //gp.sendLine(R"(set xrange [-10:10])");
+    //gp.sendLine(R"(set yrange [-2:2])");
+    gp.sendLine(R"(plot "transform.dat" with lines)");
 
     return 0;
 
