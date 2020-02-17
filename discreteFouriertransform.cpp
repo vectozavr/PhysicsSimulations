@@ -76,7 +76,7 @@ int main() {
     }
     //for(int i = -quantity; i < quantity; i++) {
     //    double x = (double)i/quantity * 2 * PI;
-    //    data.push_back({x, sin(x) + sin(5*x)/2});
+    //    data.push_back({x, sin(x) + sin(10*x)/2});
     //}
 
     addNoise(data);
@@ -88,6 +88,8 @@ int main() {
     GnuplotPipe gp;
     //gp.sendLine(R"(set xrange [-10:10])");
     //gp.sendLine(R"(set yrange [-2:2])");
+    gp.sendLine(R"(set multiplot layout 1,2)");
+    gp.sendLine(R"(plot "data.dat" with lines)");
     gp.sendLine(R"(plot "transform.dat" with lines)");
 
     return 0;
