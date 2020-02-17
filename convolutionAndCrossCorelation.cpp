@@ -3,9 +3,9 @@
 //
 
 #include "gnuplot.h"
-#include "mymath.h"
+#include "vemath.h"
 
-using namespace mymath;
+using namespace vemath;
 
 int main() {
     std::vector<Point2D> data;

@@ -2,9 +2,9 @@
 // Created by ivan- on 11.02.2020.
 //
 #include "gnuplot.h"
-#include "mymath.h"
+#include "vemath.h"
 
-using namespace mymath;
+using namespace vemath;
 
 int main() {
     ComplexPlot data;

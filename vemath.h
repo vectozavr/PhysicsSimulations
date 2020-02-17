@@ -2,8 +2,8 @@
 // Created by ivan- on 17.02.2020.
 //
 
-#ifndef PHYSICSSIMULATIONS_MYMATH_H
-#define PHYSICSSIMULATIONS_MYMATH_H
+#ifndef PHYSICSSIMULATIONS_VEMATH_H
+#define PHYSICSSIMULATIONS_VEMATH_H
 
 #include <cmath>
 #include <iostream>
@@ -12,7 +12,7 @@
 #include <fstream>
 #include "settings.h"
 
-namespace mymath {
+namespace vemath {
     // struct Point2D allows you to do simple calculations with vectors really fast and comfortably.
     struct Point2D {
         double x = 0;
@@ -73,4 +73,4 @@ namespace mymath {
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1);
 
 }
-#endif //PHYSICSSIMULATIONS_MYMATH_H
+#endif //PHYSICSSIMULATIONS_VEMATH_H
