@@ -4,12 +4,13 @@ project(PhysicsSimulations)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -static")
 set(CMAKE_CXX_STANDARD 17)
 
+add_library(mymath STATIC mymath.h mymath.cpp)
 
 add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
 
 add_executable(DISCRETE_FOURIER discreteFouriertransform.cpp settings.h gnuplot.h)
-add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h)
+add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h mymath.cpp mymath.h)
 
 
 # SFML Librares
@@ -20,3 +21,6 @@ include_directories(${SFML_INCLUDE_DIR})
 
 target_link_libraries(TURTLE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
 target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
+
+target_link_libraries(DISCRETE_FOURIER mymath)
+target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION mymath)
