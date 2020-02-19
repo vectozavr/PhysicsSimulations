@@ -60,6 +60,20 @@ namespace vemath {
             return result;
         }
 
+        [[nodiscard]] std::vector<Point2D> real() const{
+            std::vector<Point2D> real;
+            for(int i = 0; i < v_c.size(); i++)
+                real.push_back({v_c[i].first, v_c[i].second.real});
+            return real;
+        }
+
+        [[nodiscard]] std::vector<Point2D> imagine() const{
+            std::vector<Point2D> imagine;
+            for(int i = 0; i < v_c.size(); i++)
+                imagine.push_back({v_c[i].first, v_c[i].second.imagine});
+            return imagine;
+        }
+
         void push(double x, Complex z){ v_c.emplace_back(x, z); }
     };
 
