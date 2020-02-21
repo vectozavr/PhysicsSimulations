@@ -51,7 +51,12 @@ namespace vemath {
         [[nodiscard]] double abs() const {return sqrt(real*real + imagine*imagine); }
     };
     struct ComplexPlot {
+        double _xn = 1;
+        [[nodiscard]] double xn() const { return _xn; }
+
         std::vector<std::pair<double, Complex>> v_c;
+
+        unsigned long long size() const { return v_c.size(); }
 
         [[nodiscard]] std::vector<Point2D> abs() const{
             std::vector<Point2D> result;
@@ -74,11 +79,22 @@ namespace vemath {
             return imagine;
         }
 
+        void adaptiveFilter(int sensitive = 10) {
+            double max_ampl = 0;
+            for(auto el : v_c)
+                if(max_ampl < el.second.abs())
+                    max_ampl = el.second.abs();
+            for(auto& el : v_c)
+                if(el.second.abs() < (double)max_ampl/sensitive)
+                    el.second = {0, 0};
+        }
+
+
         void push(double x, Complex z){ v_c.emplace_back(x, z); }
     };
 
     // save 2D plot from <data> to "filename"
-    bool saveVectorPoint2DToFile(const std::vector<Point2D> &data, const std::string &fileName = "data.dat");
+    bool saveVectorPoint2DToFile(const std::vector<Point2D> &data, const std::string &fileName = "data.dat", unsigned long long N = 0);
     // simple fourier transform of 2D plot. Without imagine component.
     void fourierTransform(const ComplexPlot& data, ComplexPlot& transform);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>

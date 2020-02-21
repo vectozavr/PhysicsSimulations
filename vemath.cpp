@@ -6,13 +6,15 @@
 
 using namespace vemath;
 
-bool vemath::saveVectorPoint2DToFile(const std::vector<vemath::Point2D> &data, const std::string &fileName) {
+bool vemath::saveVectorPoint2DToFile(const std::vector<vemath::Point2D> &data, const std::string &fileName, unsigned long long N) {
     std::ofstream _ofstream(fileName);
     if (!_ofstream.is_open())
         return false;
 
-    for (auto d : data)
-        _ofstream << d.x << "   " << d.y << std::endl;
+    N = N==0 ? data.size() : N;
+    for(int i = 0; i < N; i++) {
+        _ofstream << data[i].x << "   " << data[i].y << std::endl;
+    }
 
     _ofstream.close();
     return true;
@@ -27,8 +29,9 @@ void vemath::fourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
             Complex tr = {cos(p) / data.v_c.size(), -sin(p) / data.v_c.size()};
             transformed += data.v_c[n].second * tr;
         }
-        transform.push(2 * PI * k / data.v_c.size(), transformed);
+        transform.push(k, transformed);
     }
+    transform._xn = data.v_c.back().first;
 }
 
 void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
@@ -40,7 +43,7 @@ void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& trans
             Complex tr = {cos(p), sin(p)};
             transformed += data.v_c[n].second * tr;
         }
-        transform.push(2 * PI * k / data.v_c.size(), transformed);
+        transform.push(k*data.xn()/data.size(), transformed);
     }
 }
 

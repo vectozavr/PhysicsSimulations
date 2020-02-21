@@ -6,6 +6,7 @@
 #include <chrono>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
 
 #include "settings.h"
 
@@ -36,9 +37,11 @@ struct Point2D {
 struct Rocket {
     double x = 0;
     double y = 0;
+    double z = 0;
 
     double Vx = 0;
     double Vy = 0;
+    double Vz = 0;
 
     double explosionHeight = 200;
     double explosionPower = 100;
@@ -48,6 +51,9 @@ struct Rocket {
 
     double Ax = 0;
     double Ay = -9.81;
+    double Az = 0;
+
+    //sf::Color C_color = {dynamic_cast<sf::Utf8>(255*rand()/RAND_MAX), 255*rand()/RAND_MAX, 255*rand()/RAND_MAX};
 
     vector<Point2D> v_particles;
 
@@ -139,7 +145,7 @@ int main() {
                 window.close();
         }
 
-        //window.clear();
+        window.clear();
         double plus = 0;
         for(auto& r : v_rockets) {
             plus = calculateShift(d_elapsedTime, r);
