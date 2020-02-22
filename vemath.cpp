@@ -23,10 +23,10 @@ bool vemath::saveVectorPoint2DToFile(const std::vector<vemath::Point2D> &data, c
 void vemath::fourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
     transform.v_c.clear();
     for (int k = 0; k < data.v_c.size(); k++) {
-        vemath::Complex transformed = {0, 0};
+        std::complex<double> transformed = {0, 0};
         for (int n = 0; n < data.v_c.size(); n++) {
             double p = 2 * PI * k * n / data.v_c.size();
-            Complex tr = {cos(p) / data.v_c.size(), -sin(p) / data.v_c.size()};
+            std::complex<double> tr = {cos(p) / data.v_c.size(), -sin(p) / data.v_c.size()};
             transformed += data.v_c[n].second * tr;
         }
         transform.push(k, transformed);
@@ -37,10 +37,10 @@ void vemath::fourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
 void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
     transform.v_c.clear();
     for (int k = 0; k < data.v_c.size(); k++) {
-        vemath::Complex transformed = {0, 0};
+        std::complex<double> transformed = {0, 0};
         for (int n = 0; n < data.v_c.size(); n++) {
             double p = 2 * PI * k * n / data.v_c.size();
-            Complex tr = {cos(p), sin(p)};
+            std::complex<double> tr = {cos(p), sin(p)};
             transformed += data.v_c[n].second * tr;
         }
         transform.push(k*data.xn()/data.size(), transformed);
@@ -50,7 +50,6 @@ void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& trans
 void vemath::addNoise(ComplexPlot& data, double noiseAmplitude) {
     srand(1235);
     for(auto& d : data.v_c) {
-        d.second.real += noiseAmplitude * rand()/RAND_MAX - noiseAmplitude/2;
-        d.second.imagine += noiseAmplitude * rand()/RAND_MAX - noiseAmplitude/2;
+        d.second += noiseAmplitude * rand()/RAND_MAX - noiseAmplitude/2;
     }
 }

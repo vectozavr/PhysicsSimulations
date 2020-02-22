@@ -10,6 +10,7 @@
 #include <vector>
 #include <cstdlib>
 #include <fstream>
+#include <complex>
 #include "settings.h"
 
 namespace vemath {
@@ -54,43 +55,51 @@ namespace vemath {
         double _xn = 1;
         [[nodiscard]] double xn() const { return _xn; }
 
-        std::vector<std::pair<double, Complex>> v_c;
+        std::vector<std::pair<double, std::complex<double>>> v_c;
 
         unsigned long long size() const { return v_c.size(); }
 
         [[nodiscard]] std::vector<Point2D> abs() const{
             std::vector<Point2D> result;
             for(int i = 0; i < v_c.size(); i++)
-                result.push_back({v_c[i].first, v_c[i].second.abs()});
+                result.push_back({v_c[i].first, std::abs(v_c[i].second)});
             return result;
         }
 
         [[nodiscard]] std::vector<Point2D> real() const{
             std::vector<Point2D> real;
             for(int i = 0; i < v_c.size(); i++)
-                real.push_back({v_c[i].first, v_c[i].second.real});
+                real.push_back({v_c[i].first, v_c[i].second.real()});
             return real;
         }
 
         [[nodiscard]] std::vector<Point2D> imagine() const{
             std::vector<Point2D> imagine;
             for(int i = 0; i < v_c.size(); i++)
-                imagine.push_back({v_c[i].first, v_c[i].second.imagine});
+                imagine.push_back({v_c[i].first, v_c[i].second.imag()});
             return imagine;
+        }
+
+        [[nodiscard]] std::vector<Point2D> phase() const{
+            std::vector<Point2D> _phase;
+            for(int i = 0; i < v_c.size(); i++)
+                _phase.push_back({v_c[i].first, std::arg(v_c[i].second)});
+            return _phase;
         }
 
         void adaptiveFilter(int sensitive = 10) {
             double max_ampl = 0;
             for(auto el : v_c)
-                if(max_ampl < el.second.abs())
-                    max_ampl = el.second.abs();
+                if(max_ampl < std::abs(el.second))
+                    max_ampl = std::abs(el.second);
             for(auto& el : v_c)
-                if(el.second.abs() < (double)max_ampl/sensitive)
+                if(std::abs(el.second) < (double)max_ampl/sensitive)
                     el.second = {0, 0};
         }
 
 
-        void push(double x, Complex z){ v_c.emplace_back(x, z); }
+        void push(double x, std::complex<double> z){ v_c.emplace_back(x, z); }
+
     };
 
     // save 2D plot from <data> to "filename"
