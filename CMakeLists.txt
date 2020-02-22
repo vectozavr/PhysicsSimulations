@@ -20,7 +20,7 @@ find_package(SFML 2.5.1 COMPONENTS graphics audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})
 
 target_link_libraries(TURTLE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
-target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
+target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)

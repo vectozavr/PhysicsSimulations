@@ -47,9 +47,21 @@ void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& trans
     }
 }
 
-void vemath::addNoise(ComplexPlot& data, double noiseAmplitude) {
-    srand(1235);
+void vemath::addNoise(ComplexPlot& data, double noiseAmplitude, int seed) {
+    srand(seed);
     for(auto& d : data.v_c) {
         d.second += noiseAmplitude * rand()/RAND_MAX - noiseAmplitude/2;
     }
+}
+
+[[nodiscard]] Point3D randomDirection(int seed) {
+    srand(seed);
+    Point3D dir = {1, 1, 1};
+    while(dir.abs() > 1) {
+        dir.x = -1 + 2*rand()/RAND_MAX;
+        dir.y = -1 + 2*rand()/RAND_MAX;
+        dir.z = -1 + 2*rand()/RAND_MAX;
+    }
+    dir = dir.normalize();
+    return dir;
 }

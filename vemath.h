@@ -6,7 +6,6 @@
 #define PHYSICSSIMULATIONS_VEMATH_H
 
 #include <cmath>
-#include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <fstream>
@@ -28,6 +27,10 @@ namespace vemath {
             this->y = point2D.y;
             return *this;
         }
+        Point2D &operator*=(double number) {
+            this->x *= number;
+            this->y *= number;
+        }
         Point2D &operator*(double number) {
             this->x *= number;
             this->y *= number;
@@ -38,6 +41,37 @@ namespace vemath {
         Point2D normalize() { return Point2D{this->x / abs(), this->y / abs()}; }
         double abs() { return sqrt(x * x + y * y); }
     };
+    struct Point3D {
+        double x = 0;
+        double y = 0;
+        double z = 0;
+
+        double Vx = 0;
+        double Vy = 0;
+        double Vz = 0;
+
+        double Ax = 0;
+        double Ay = 0;
+        double Az = 0;
+
+        double mass = 0;
+
+        Point3D& operator+=(const Point3D& point2D) { this->x += point2D.x; this->y += point2D.y; this->z += point2D.z; }
+        Point3D& operator=(const Point3D& point2D) { this->x = point2D.x; this->y = point2D.y; this->z = point2D.z; return *this; }
+        Point3D& operator*(double number) { this->x *= number; this->y *= number; this->z *= number;}
+        Point3D operator-(const Point3D& point2D) const { return {this->x - point2D.x, this->y - point2D.y, this->z - point2D.z}; }
+        Point3D operator+(const Point3D& point2D) const { return {this->x + point2D.x, this->y + point2D.y, this->z + point2D.z}; }
+
+        Point3D &operator*=(double number) {
+            this->x *= number;
+            this->y *= number;
+            this->z *= number;
+        }
+
+        Point3D normalize() { return Point3D{this->x/abs(), this->y/abs(), this->z/abs()};}
+        double abs() {return sqrt(x*x + y*y + z*z); }
+    };
+
     // struct Complex allows you to store complex numbers.
     struct Complex {
         double real = 0;
@@ -109,7 +143,8 @@ namespace vemath {
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
-    void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1);
+    void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
 
+    [[nodiscard]] Point3D randomDirection(int seed = 1234);
 }
 #endif //PHYSICSSIMULATIONS_VEMATH_H

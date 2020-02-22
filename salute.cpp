@@ -4,35 +4,27 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <chrono>
-#include <vector>
-#include <cmath>
-#include <cstdlib>
-
-#include "settings.h"
+#include "vemath.h"
 
 using namespace std;
+using namespace vemath;
 
-struct Point2D {
-    double x = 0;
-    double y = 0;
+[[nodiscard]] Point3D randomDirection1(int seed) {
+    Point3D dir = {1, 1, 1};
+    while(dir.abs() > 1) {
+        dir.x = -1 + 2*(double)rand()/RAND_MAX;
+        dir.y = -1 + 2*(double)rand()/RAND_MAX;
+        dir.z = -1 + 2*(double)rand()/RAND_MAX;
+    }
+    dir = dir.normalize();
+    return dir;
+}
 
-    double Vx = 0;
-    double Vy = 0;
-
-    double Ax = 0;
-    double Ay = -9.81;
-
-    double mass = 0;
-
-    Point2D& operator+=(const Point2D& point2D) { this->x += point2D.x; this->y += point2D.y; }
-    Point2D& operator=(const Point2D& point2D) { this->x = point2D.x; this->y = point2D.y; return *this; }
-    Point2D& operator*(double number) { this->x *= number; this->y *= number; }
-    Point2D operator-(const Point2D& point2D) const { return {this->x - point2D.x, this->y - point2D.y}; }
-    Point2D operator+(const Point2D& point2D) const { return {this->x + point2D.x, this->y + point2D.y}; }
-
-    Point2D normalize() { return Point2D{this->x/abs(), this->y/abs()};}
-    double abs() {return sqrt(x*x + y*y); }
-};
+[[nodiscard]] Point3D randomVelocity(double abs) {
+    Point3D randomDir = randomDirection1(1);
+    randomDir *= abs;
+    return randomDir;
+}
 
 struct Rocket {
     double x = 0;
@@ -55,14 +47,13 @@ struct Rocket {
 
     //sf::Color C_color = {dynamic_cast<sf::Utf8>(255*rand()/RAND_MAX), 255*rand()/RAND_MAX, 255*rand()/RAND_MAX};
 
-    vector<Point2D> v_particles;
+    vector<Point3D> v_particles;
 
     void explode(double power = 100) {
         v_particles.clear();
         for(int i = 0; i < numberOfParticles; i++) {
-            double p_Vx = power*cos(i*2*PI/numberOfParticles);
-            double p_Vy = power*sin(i*2*PI/numberOfParticles);
-            v_particles.push_back({x, y, Vx + p_Vx, Vy + p_Vy, Ax, Ay, mass/numberOfParticles});
+            Point3D r_v = randomVelocity(power);
+            v_particles.push_back({x, y, z, Vx + r_v.x, Vy + r_v.y, Vz + r_v.z, Ax, Ay, Az, mass/numberOfParticles});
         }
     }
 
@@ -90,16 +81,20 @@ double calculateShift(double elapsedTime, Rocket& rocket, double dt = 0.001) {
             //one whole rocket
             rocket.x += rocket.Vx*dt;
             rocket.y += rocket.Vy*dt;
+            rocket.z += rocket.Vz*dt;
             rocket.Vx += rocket.Ax*dt;
             rocket.Vy += rocket.Ay*dt;
+            rocket.Vz += rocket.Az*dt;
             if(rocket.y >= rocket.explosionHeight)
                 rocket.explode(rocket.explosionPower);
         } else {
             for(auto& p : rocket.v_particles) {
                 p.x     += p.Vx*dt;
                 p.y     += p.Vy*dt;
+                p.z     += p.Vz*dt;
                 p.Vx    += p.Ax*dt;
                 p.Vy    += p.Ay*dt;
+                p.Vz    += p.Az*dt;
             }
         }
         time += dt;
@@ -119,14 +114,32 @@ int main() {
     double rocketMass = 12*1000;
     double rocketVelocity = 100;
     double explosionHeight = 200;
-    double explosionPower = 10;
-    int numberOfParticles = 10;
+    double explosionPower = 100;
+    int numberOfParticles = 1000;
 
     int numberOfRockets = 5;
 
     vector<Rocket> v_rockets;
     for(int i = 0; i < numberOfRockets; i++)
-        v_rockets.push_back({(double)SCREEN_WIDTH/SCALE*((double)(i+0.5)/numberOfRockets - 0.5), 0, 0, rocketVelocity, explosionHeight, explosionPower, rocketMass, numberOfParticles});
+        v_rockets.push_back({(double)SCREEN_WIDTH/SCALE*((double)(i+0.5)/numberOfRockets - 0.5), 0, 0, 0, rocketVelocity, 0, explosionHeight, explosionPower, rocketMass, numberOfParticles});
+
+    //    double x = 0;
+    //    double y = 0;
+    //    double z = 0;
+    //
+    //    double Vx = 0;
+    //    double Vy = 0;
+    //    double Vz = 0;
+    //
+    //    double explosionHeight = 200;
+    //    double explosionPower = 100;
+    //
+    //    double mass = 0;
+    //    int numberOfParticles = 400;
+    //
+    //    double Ax = 0;
+    //    double Ay = -9.81;
+    //    double Az = 0;
 
     double totalTime = 0;
     while (window.isOpen())
