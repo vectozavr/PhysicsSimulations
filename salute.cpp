@@ -65,7 +65,7 @@ struct Rocket {
             window.draw(circle);
         } else {
             for(auto p : v_particles) {
-                sf::CircleShape circle(2.f);
+                sf::CircleShape circle(1.f);
                 circle.setFillColor(color);
                 circle.setPosition(SCREEN_WIDTH/2 + p.x*SCALE - 1, SCREEN_HEIGHT - p.y*SCALE - 1);
                 window.draw(circle);

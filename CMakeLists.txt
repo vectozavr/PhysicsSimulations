@@ -8,6 +8,7 @@ add_library(vemath STATIC vemath.h vemath.cpp)
 
 add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
+add_executable(POTENTIAL potential.cpp settings.h)
 
 add_executable(DISCRETE_FOURIER discreteFouriertransform.cpp settings.h gnuplot.h)
 add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h)
@@ -21,6 +22,7 @@ include_directories(${SFML_INCLUDE_DIR})
 
 target_link_libraries(TURTLE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
 target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+target_link_libraries(POTENTIAL sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)
