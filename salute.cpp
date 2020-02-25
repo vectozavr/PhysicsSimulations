@@ -39,10 +39,10 @@ struct Rocket {
     double explosionPower = 100;
 
     double mass = 0;
-    int numberOfParticles = 400;
+    int numberOfParticles = 50;
 
     double Ax = 0;
-    double Ay = -9.81;
+    double Ay = -20.81;
     double Az = 0;
 
     //sf::Color C_color = {dynamic_cast<sf::Utf8>(255*rand()/RAND_MAX), 255*rand()/RAND_MAX, 255*rand()/RAND_MAX};

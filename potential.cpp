@@ -104,10 +104,10 @@ int main() {
     vector<pair<Point3D, double>> charges;
 
     int pixelSize = 3;
-    double scale = (double)1;
+    double scale = (double)1/30;
 
-    charges.push_back({{50, 0}, 1});
-    charges.push_back({{-50, 0}, -1});
+    charges.push_back({{5, 0}, 1});
+    charges.push_back({{-5, 0}, -1});
 
     bool redraw = true;
 
@@ -131,11 +131,11 @@ int main() {
                 for (int k = 0; k < SCREEN_HEIGHT/pixelSize; k++) {
                     Point3D position = {(i * pixelSize - (double) SCREEN_WIDTH / 2) * scale,(k * pixelSize - (double) SCREEN_HEIGHT / 2) * scale};
 
-                    //double potential = potentialCharges(position, charges); // charges
+                    double potential = potentialCharges(position, charges); // charges
                     //double potential = potentialLines(position);  // lines
                     //double potential = potentialTape(position);  // tape
                     //double potential = potentialTapeAndLine(position);  // tape and line
-                    double potential = twoPotentialTape(position);  // two tapes
+                    //double potential = twoPotentialTape(position);  // two tapes
 
                     if(potential < 0) potential *= -1;
                     vector<int> res_color = colorInterpolate((potential*1));

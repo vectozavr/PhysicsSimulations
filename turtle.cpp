@@ -45,6 +45,8 @@ double calculateTime(double R, double velocity, unsigned long long N) {
     return R/(velocity*cos(PI/2 - (double)PI/N));
 }
 
+
+
 int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "turtles");
 
@@ -52,9 +54,9 @@ int main() {
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
 
-    unsigned long long N = 25;
+    unsigned long long N = 10;
     double R = 30*100;
-    double velocity = 30;
+    double velocity = 3;
 
     double totalTime = 0;
 
@@ -62,6 +64,10 @@ int main() {
     for(int i = 0; i < turtles.size(); i++) {
         turtles[i].x = R*cos((double)i*2*PI/N);
         turtles[i].y = R*sin((double)i*2*PI/N);
+
+        // In random positions:
+        //turtles[i].x = R*(-1 + 2*(double)rand()/RAND_MAX);
+        //turtles[i].y = R*(-1 + 2*(double)rand()/RAND_MAX);
     }
 
     double thTime = calculateTime(R, velocity, N);
@@ -86,7 +92,7 @@ int main() {
                 window.close();
         }
 
-        double plus = calculateShift(0.1f, turtles, velocity);
+        double plus = calculateShift(0.5f, turtles, velocity);
         totalTime += plus;
 
         //cout << totalTime << endl;
