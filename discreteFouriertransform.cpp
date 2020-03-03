@@ -144,20 +144,20 @@ int main() {
     GnuplotPipe gp;
     //gp.sendLine(R"(set xrange [-10:10])");
     //gp.sendLine(R"(set yrange [-2:2])");
-    gp.sendLine(R"(set multiplot layout 4,5)");
+    gp.sendLine(R"(set multiplot layout 3,4)");
     gp.sendLine(R"(unset key)");
 
     gp.sendLine(R"(plot "data1.dat" with lines)");
     gp.sendLine(R"(plot "transform1.dat" with lines)");
     gp.sendLine(R"(plot "data2.dat" with lines)");
     gp.sendLine(R"(plot "transform2.dat" with lines)");
-    gp.sendLine(R"(plot "arg1.dat" with lines)");
+    //gp.sendLine(R"(plot "arg1.dat" with lines)");
 
     gp.sendLine(R"(plot "data3.dat" with lines)");
     gp.sendLine(R"(plot "transform3.dat" with lines)");
     gp.sendLine(R"(plot "data4.dat" with lines)");
     gp.sendLine(R"(plot "transform4.dat" with lines)");
-    gp.sendLine(R"(plot "arg2.dat" with lines)");
+    //gp.sendLine(R"(plot "arg2.dat" with lines)");
 
     gp.sendLine(R"(plot "data6.dat" with lines)");
     gp.sendLine(R"(plot "transform6.dat" with lines)");

@@ -142,22 +142,33 @@ namespace vemath {
     void fourierTransform(const ComplexPlot& data, ComplexPlot& transform);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform);
+    // convolution of 2 2D plots <data1> and <data2>. result in <conv>
+    void convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
 
+    //return min x from ComplexPlot
+    double minx(const ComplexPlot& data);
+    //return max x from ComplexPlot
+    double maxx(const ComplexPlot& data);
+    //return min y from ComplexPlot
+    double miny(const ComplexPlot& data);
+    //return max y from ComplexPlot
+    double maxy(const ComplexPlot& data);
+
     [[nodiscard]] Point3D randomDirection(int seed = 1234);
 
-    std::vector<int> colorInterpolate(double progress) {
-        std::vector<int> result_color = {0, 0, 255};
-
-        if((progress <= 0) || (progress >= 1))
-            return (progress <= 0) ? result_color : std::vector<int>{255,0,0};
-        int i = 0;
-        for(i = 0; progress > (double)(i+1)/4; i++)
-            result_color[(i+1)%3] = (i%2 == 0) ? 255 : 0;
-        result_color[(i+1)%3] = (i%2 == 0) ? (4*progress - i)*255 : (1 + i-4*progress)*255;
-
-        return result_color;
-    }
+    //std::vector<int> colorInterpolate(double progress) {
+    //    std::vector<int> result_color = {0, 0, 255};
+//
+    //    if((progress <= 0) || (progress >= 1))
+    //        return (progress <= 0) ? result_color : std::vector<int>{255,0,0};
+    //    int i = 0;
+    //    for(i = 0; progress > (double)(i+1)/4; i++)
+    //        result_color[(i+1)%3] = (i%2 == 0) ? 255 : 0;
+    //    result_color[(i+1)%3] = (i%2 == 0) ? (4*progress - i)*255 : (1 + i-4*progress)*255;
+//
+    //    return result_color;
+    //}
 }
 #endif //PHYSICSSIMULATIONS_VEMATH_H

@@ -8,17 +8,18 @@
 using namespace vemath;
 
 int main() {
-    std::vector<Point2D> data;
+    std::vector<Point2D> data1;
     std::vector<Point2D> data2;
     std::vector<Point2D> transform;
 
     int quantity = 1000;
     for(int i = -quantity; i < quantity; i++) {
         if(i < -quantity / 10 || i > quantity / 10)
-            data.push_back({(double)i/quantity*10, 0});
+            data1.push_back({(double)i/quantity*10, 0});
         else
-            data.push_back({(double)i/quantity*10, 1});
+            data1.push_back({(double)i/quantity*10, 1});
     }
+    data2 = data1;
     //for(int i = -quantity; i < quantity; i++) {
     //    double x = (double)i/quantity * 2 * PI;
     //    data.push_back({x, sin(x)});
@@ -27,6 +28,7 @@ int main() {
     //addNoise(data);
     //fourierTransform(data, transform);
     //inverseFourierTransform(transform, data2);
+
 
     saveVectorPoint2DToFile(data, "data.dat");
     saveVectorPoint2DToFile(data2, "transform.dat");

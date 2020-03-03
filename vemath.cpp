@@ -65,3 +65,62 @@ void vemath::addNoise(ComplexPlot& data, double noiseAmplitude, int seed) {
     dir = dir.normalize();
     return dir;
 }
+
+//return min x from ComplexPlot
+double vemath::minx(const ComplexPlot& data) {
+    double min = data.v_c[0].first;
+    for(auto comp : data.v_c)
+        if(min > comp.first)
+            min = comp.first;
+    return min;
+}
+//return max x from ComplexPlot
+double vemath::maxx(const ComplexPlot& data) {
+    double max = data.v_c[0].first;
+    for(auto comp : data.v_c)
+        if(max < comp.first)
+            max = comp.first;
+    return max;
+}
+//return min y from ComplexPlot
+double vemath::miny(const ComplexPlot& data) {
+    double min = data.v_c[0].second.real();
+    for(auto comp : data.v_c)
+        if(min > comp.second.real())
+            min = comp.second.real();
+    return min;
+}
+//return max y from ComplexPlot
+double vemath::maxy(const ComplexPlot& data) {
+    double max = data.v_c[0].second.real();
+    for(auto comp : data.v_c)
+        if(max < comp.second.real())
+            max = comp.second.real();
+    return max;
+}
+
+void vemath::convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv) {
+    double min = std::min(minx(data1), minx(data2));
+    double max = std::max(maxx(data1), maxx(data2));
+
+    conv.v_c.clear();
+    for (int k = 0; k < data.v_c.size(); k++) {
+        std::complex<double> transformed = {0, 0};
+        for (int n = 0; n < data.v_c.size(); n++) {
+            double p = 2 * PI * k * n / data.v_c.size();
+            std::complex<double> tr = {cos(p) / data.v_c.size(), -sin(p) / data.v_c.size()};
+            transformed += data.v_c[n].second * tr;
+        }
+        transform.push(k, transformed);
+    }
+    transform._xn = data.v_c.back().first;
+
+    double x = min;
+    do {
+        double convk = 0;
+        for (int n = 0; n < data1.v_c.size(); n++) {
+            if()
+            convk +=
+        }
+    } while (x < max);
+}
