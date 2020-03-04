@@ -106,13 +106,21 @@ void vemath::convolution(const ComplexPlot& data1, const ComplexPlot& data2, Com
     conv.v_c.clear();
     int N = std::max(data1.size(), data2.size());
     int n = std::min(data1.size(), data2.size());
-    for(int i = 0; i < N; i++) {
+    for(int i = 0; i < n + N; i++) {
         std::complex<double> result = {0, 0};
-        for(int k = 0; k < data1.size(); k++) {
-            if((k > data2.size()) || (-i + k < 0))
+        for(int k = 0; k < data1.size() + data2.size(); k++) {
+            if((k > data1.size()) || (i - k < 0) || (i - k > data2.size()))
                 continue;
-            result += data1.v_c[k].second * data2.v_c[k - i].second;
+            result += data1.v_c[k].second * data2.v_c[i - k].second;
         }
         conv.push(i, result);
     }
+}
+
+void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross) {
+    ComplexPlot inv_data1;
+    for(int k = data1.size()-1; k >= 0; k--)
+        inv_data1.push(data1.v_c[k].first, data1.v_c[k].second);
+
+    convolution(inv_data1, data2, cross);
 }

@@ -144,6 +144,8 @@ namespace vemath {
     void inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform);
     // convolution of 2 2D plots <data1> and <data2>. result in <conv>
     void convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv);
+    // cross corelation of 2 2D plots <data1> and <data2>. result in <conv>
+    void crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
 
