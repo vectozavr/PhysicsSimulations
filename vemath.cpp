@@ -104,23 +104,15 @@ void vemath::convolution(const ComplexPlot& data1, const ComplexPlot& data2, Com
     double max = std::max(maxx(data1), maxx(data2));
 
     conv.v_c.clear();
-    for (int k = 0; k < data.v_c.size(); k++) {
-        std::complex<double> transformed = {0, 0};
-        for (int n = 0; n < data.v_c.size(); n++) {
-            double p = 2 * PI * k * n / data.v_c.size();
-            std::complex<double> tr = {cos(p) / data.v_c.size(), -sin(p) / data.v_c.size()};
-            transformed += data.v_c[n].second * tr;
+    int N = std::max(data1.size(), data2.size());
+    int n = std::min(data1.size(), data2.size());
+    for(int i = 0; i < N; i++) {
+        std::complex<double> result = {0, 0};
+        for(int k = 0; k < data1.size(); k++) {
+            if((k > data2.size()) || (-i + k < 0))
+                continue;
+            result += data1.v_c[k].second * data2.v_c[k - i].second;
         }
-        transform.push(k, transformed);
+        conv.push(i, result);
     }
-    transform._xn = data.v_c.back().first;
-
-    double x = min;
-    do {
-        double convk = 0;
-        for (int n = 0; n < data1.v_c.size(); n++) {
-            if()
-            convk +=
-        }
-    } while (x < max);
 }

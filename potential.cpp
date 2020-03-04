@@ -131,14 +131,14 @@ int main() {
                 for (int k = 0; k < SCREEN_HEIGHT/pixelSize; k++) {
                     Point3D position = {(i * pixelSize - (double) SCREEN_WIDTH / 2) * scale,(k * pixelSize - (double) SCREEN_HEIGHT / 2) * scale};
 
-                    double potential = potentialCharges(position, charges); // charges
+                    //double potential = potentialCharges(position, charges); // charges
                     //double potential = potentialLines(position);  // lines
                     //double potential = potentialTape(position);  // tape
-                    //double potential = potentialTapeAndLine(position);  // tape and line
+                    double potential = potentialTapeAndLine(position);  // tape and line
                     //double potential = twoPotentialTape(position);  // two tapes
 
                     if(potential < 0) potential *= -1;
-                    vector<int> res_color = colorInterpolate((potential*1));
+                    vector<int> res_color = colorInterpolate((potential));
                     colors.emplace_back(static_cast<sf::Uint8>(res_color[0]), static_cast<sf::Uint8>(res_color[1]), static_cast<sf::Uint8>(res_color[2]));
                 }
                 scene.push_back(colors);

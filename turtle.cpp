@@ -54,7 +54,7 @@ int main() {
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
 
-    unsigned long long N = 10;
+    unsigned long long N = 100;
     double R = 30*100;
     double velocity = 3;
 
@@ -62,12 +62,12 @@ int main() {
 
     vector<Point2D> turtles{N, {0,0}};
     for(int i = 0; i < turtles.size(); i++) {
-        turtles[i].x = R*cos((double)i*2*PI/N);
-        turtles[i].y = R*sin((double)i*2*PI/N);
+        //turtles[i].x = R*cos((double)i*2*PI/N);
+        //turtles[i].y = R*sin((double)i*2*PI/N);
 
         // In random positions:
-        //turtles[i].x = R*(-1 + 2*(double)rand()/RAND_MAX);
-        //turtles[i].y = R*(-1 + 2*(double)rand()/RAND_MAX);
+        turtles[i].x = R*(-1 + 2*(double)rand()/RAND_MAX);
+        turtles[i].y = R*(-1 + 2*(double)rand()/RAND_MAX);
     }
 
     double thTime = calculateTime(R, velocity, N);
@@ -92,7 +92,7 @@ int main() {
                 window.close();
         }
 
-        double plus = calculateShift(0.5f, turtles, velocity);
+        double plus = calculateShift(0.1f, turtles, velocity);
         totalTime += plus;
 
         //cout << totalTime << endl;
