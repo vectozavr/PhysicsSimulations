@@ -10,12 +10,14 @@ add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
 add_executable(POTENTIAL potential.cpp settings.h)
 
+add_executable(COVID19 covid19.cpp settings.h)
+
 add_executable(DISCRETE_FOURIER discreteFouriertransform.cpp settings.h gnuplot.h)
 add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h)
 
 
 # SFML Librares
-set(SFML_DIR "D:/Libraries/SFML/lib/cmake/SFML")
+set(SFML_DIR "G:/Libraries/SFML/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.5.1 COMPONENTS graphics audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})
@@ -23,6 +25,8 @@ include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(TURTLE sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
 target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 target_link_libraries(POTENTIAL sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+
+target_link_libraries(COVID19 sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)
