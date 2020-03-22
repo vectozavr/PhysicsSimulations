@@ -12,7 +12,7 @@ add_executable(POTENTIAL potential.cpp settings.h)
 
 add_executable(DISCRETE_FOURIER discreteFouriertransform.cpp settings.h gnuplot.h)
 add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cpp settings.h gnuplot.h)
-
+add_executable(HIGH_FREQUENCY_FILTER highFrequencyFilter.cpp settings.h gnuplot.h)
 
 # SFML Librares
 set(SFML_DIR "D:/Libraries/SFML/lib/cmake/SFML")
@@ -26,3 +26,4 @@ target_link_libraries(POTENTIAL sfml-audio sfml-network sfml-graphics sfml-windo
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)
+target_link_libraries(HIGH_FREQUENCY_FILTER vemath)

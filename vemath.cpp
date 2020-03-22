@@ -124,3 +124,7 @@ void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2
 
     convolution(inv_data1, data2, cross);
 }
+
+void vemath::highFilter(const ComplexPlot& in, ComplexPlot& out, int freq) {
+
+}

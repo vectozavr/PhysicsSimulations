@@ -1,0 +1,105 @@
+//
+// Created by ivan- on 15.03.2020.
+//
+
+#include <algorithm>
+#include "gnuplot.h"
+#include "vemath.h"
+
+using namespace vemath;
+using namespace std;
+
+int main() {
+    ComplexPlot frequencyStep;
+    ComplexPlot frequencyStep_inv;
+
+    ComplexPlot data1;  // step
+    ComplexPlot data2;  // step + noise
+    ComplexPlot data3;  // sin1
+    ComplexPlot data4;  // sin10 + sin1
+    ComplexPlot data5;  // sin1 + noise
+    ComplexPlot data6;  // lalf sin1, half sin3
+    ComplexPlot data7;  // shift phase
+
+    ComplexPlot transform1;
+    ComplexPlot transform2;
+    ComplexPlot transform3;
+    ComplexPlot transform4;
+    ComplexPlot transform5;
+    ComplexPlot transform6;
+    ComplexPlot transform7;
+    ComplexPlot transformCheck;
+
+
+    int quantity = 500;
+    for(int i = 0; i < quantity; i++) {
+        double x = (double)i/quantity * 15;
+
+        if(i < quantity/2)
+            frequencyStep.push(x, {0, 0});
+
+        if(i < quantity / 2 || i > 6 * quantity / 10)
+            data1.push(x, {0, 0});
+        else
+            data1.push(x, {1, 0});
+
+        data3.push(x, {sin(10*x), 0});
+        data4.push(x, {sin(20*x) + sin(10*x), 0});
+
+        if(i < quantity / 2)
+            data6.push(x, {sin(9*x), 0});
+        else
+            data6.push(x, {sin(81*x), 0});
+
+        if(i < quantity / 2)
+            data7.push(x, {sin(5*x), 0});
+        else
+            data7.push(x, {sin(-5*x), 0});
+    }
+    data2 = data1;
+    addNoise(data2);
+
+    fourierTransform(data1, transform1);
+    inverseFourierTransform(frequencyStep, frequencyStep_inv);
+    //frequencyStep_inv.cut(0, )
+
+    inverseFourierTransform(transform1, data2);
+
+    saveVectorPoint2DToFile(frequencyStep.real(), "frequencyStep.dat");
+    saveVectorPoint2DToFile(transform1.abs(), "transform1.dat", transform1.size()/2);
+    saveVectorPoint2DToFile(data2.real(), "data2.dat");
+    saveVectorPoint2DToFile(transform2.real(), "transform2.dat", transform2.size()/2);
+    saveVectorPoint2DToFile(data3.real(), "data3.dat");
+    saveVectorPoint2DToFile(transform3.abs(), "transform3.dat", transform3.size()/2);
+    saveVectorPoint2DToFile(data4.real(), "data4.dat");
+    saveVectorPoint2DToFile(transform4.abs(), "transform4.dat", transform4.size()/2);
+    saveVectorPoint2DToFile(data6.real(), "data6.dat");
+    saveVectorPoint2DToFile(transform6.abs(), "transform6.dat", transform6.size()/2);
+    saveVectorPoint2DToFile(data7.real(), "data7.dat");
+    saveVectorPoint2DToFile(transform7.abs(), "transform7.dat", transform7.size()/8);
+
+    GnuplotPipe gp;
+    //gp.sendLine(R"(set xrange [-10:10])");
+    //gp.sendLine(R"(set yrange [-2:2])");
+    gp.sendLine(R"(set multiplot layout 3,4)");
+    gp.sendLine(R"(unset key)");
+
+    gp.sendLine(R"(plot "frequencyStep.dat" with lines)");
+    gp.sendLine(R"(plot "transform1.dat" with lines)");
+    gp.sendLine(R"(plot "data2.dat" with lines)");
+    gp.sendLine(R"(plot "transform2.dat" with lines)");
+    //gp.sendLine(R"(plot "arg1.dat" with lines)");
+
+    gp.sendLine(R"(plot "data3.dat" with lines)");
+    gp.sendLine(R"(plot "transform3.dat" with lines)");
+    gp.sendLine(R"(plot "data4.dat" with lines)");
+    gp.sendLine(R"(plot "transform4.dat" with lines)");
+    //gp.sendLine(R"(plot "arg2.dat" with lines)");
+
+    gp.sendLine(R"(plot "data6.dat" with lines)");
+    gp.sendLine(R"(plot "transform6.dat" with lines)");
+    gp.sendLine(R"(plot "data7.dat" with lines)");
+    gp.sendLine(R"(plot "transform7.dat" with lines)");
+
+    return 0;
+}
