@@ -18,6 +18,14 @@ namespace vemath {
         double x = 0;
         double y = 0;
 
+        double Vx = 0;
+        double Vy = 0;
+
+        double Ax = 0;
+        double Ay = 0;
+
+        bool inflected = false;
+
         Point2D &operator+=(const Point2D &point2D) {
             this->x += point2D.x;
             this->y += point2D.y;
