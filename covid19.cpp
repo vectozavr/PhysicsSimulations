@@ -76,7 +76,7 @@ int main() {
     double velocity = 100;
     double acceleration = 1.f;
 
-    double r = 500;
+    double r = 1000;
 
     int i_totalTime = 0;
     double totalTime = 0;

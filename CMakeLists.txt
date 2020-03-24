@@ -17,7 +17,7 @@ add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cp
 add_executable(HIGH_FREQUENCY_FILTER highFrequencyFilter.cpp settings.h gnuplot.h)
 
 # SFML Librares
-set(SFML_DIR "G:/Libraries/SFML/lib/cmake/SFML")
+set(SFML_DIR "D:/Libraries/SFML/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.5.1 COMPONENTS graphics audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIR})

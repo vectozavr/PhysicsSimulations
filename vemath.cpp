@@ -1,5 +1,5 @@
 //
-// Created by ivan- on 17.02.2020.
+// Created by ivan-Vectozavr on 17.02.2020.
 //
 
 #include "vemath.h"
