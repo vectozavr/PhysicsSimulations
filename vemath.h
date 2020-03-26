@@ -1,5 +1,5 @@
 //
-// Created by ivan- on 17.02.2020.
+// Created by ivan-Vectozavr on 17.02.2020.
 //
 
 #ifndef PHYSICSSIMULATIONS_VEMATH_H
@@ -17,6 +17,14 @@ namespace vemath {
     struct Point2D {
         double x = 0;
         double y = 0;
+
+        double Vx = 0;
+        double Vy = 0;
+
+        double Ax = 0;
+        double Ay = 0;
+
+        bool inflected = false;
 
         Point2D &operator+=(const Point2D &point2D) {
             this->x += point2D.x;
@@ -131,6 +139,11 @@ namespace vemath {
                     el.second = {0, 0};
         }
 
+        void cut(int from = 0, int to = 0) {
+            for(int i = from; i < to; i++) {
+                v_c[i].second = {0, 0};
+            }
+        }
 
         void push(double x, std::complex<double> z){ v_c.emplace_back(x, z); }
 
@@ -146,6 +159,8 @@ namespace vemath {
     void convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv);
     // cross corelation of 2 2D plots <data1> and <data2>. result in <conv>
     void crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
+    // High frequency filter. Acts from <in> -> <out> considering frequency in [0, freq]
+    void highFilter(const ComplexPlot& in, ComplexPlot& out, int freq = 0);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
 

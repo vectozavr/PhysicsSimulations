@@ -1,5 +1,5 @@
 //
-// Created by ivan- on 17.02.2020.
+// Created by ivan-Vectozavr on 17.02.2020.
 //
 
 #include "vemath.h"
@@ -123,4 +123,8 @@ void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2
         inv_data1.push(data1.v_c[k].first, data1.v_c[k].second);
 
     convolution(inv_data1, data2, cross);
+}
+
+void vemath::highFilter(const ComplexPlot& in, ComplexPlot& out, int freq) {
+
 }
