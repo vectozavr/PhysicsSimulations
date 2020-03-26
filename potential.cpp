@@ -13,6 +13,19 @@
 using namespace std;
 using namespace vemath;
 
+std::vector<int> colorInterpolate(double progress) {
+    std::vector<int> result_color = {0, 0, 255};
+
+    if((progress <= 0) || (progress >= 1))
+        return (progress <= 0) ? result_color : std::vector<int>{255,0,0};
+    int i = 0;
+    for(i = 0; progress > (double)(i+1)/4; i++)
+        result_color[(i+1)%3] = (i%2 == 0) ? 255 : 0;
+    result_color[(i+1)%3] = (i%2 == 0) ? (4*progress - i)*255 : (1 + i-4*progress)*255;
+
+    return result_color;
+}
+
 void drawScene(sf::RenderWindow& window, vector<vector<sf::Color>>& scene) {
     for(int i = 0; i < scene.size(); i++) {
         for(int k = 0; k < scene[i].size(); k++) {
@@ -131,10 +144,10 @@ int main() {
                 for (int k = 0; k < SCREEN_HEIGHT/pixelSize; k++) {
                     Point3D position = {(i * pixelSize - (double) SCREEN_WIDTH / 2) * scale,(k * pixelSize - (double) SCREEN_HEIGHT / 2) * scale};
 
-                    //double potential = potentialCharges(position, charges); // charges
+                    double potential = potentialCharges(position, charges); // charges
                     //double potential = potentialLines(position);  // lines
                     //double potential = potentialTape(position);  // tape
-                    double potential = potentialTapeAndLine(position);  // tape and line
+                    //double potential = potentialTapeAndLine(position);  // tape and line
                     //double potential = twoPotentialTape(position);  // two tapes
 
                     if(potential < 0) potential *= -1;
