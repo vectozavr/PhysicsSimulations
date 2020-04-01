@@ -128,3 +128,11 @@ void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2
 void vemath::highFilter(const ComplexPlot& in, ComplexPlot& out, int freq) {
 
 }
+
+void vemath::cross(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross) {
+    cross.clear();
+
+    int i_min = data2.size() > data1.size() ? data1.size() : data2.size();
+    for(int i = 0; i < i_min; i++)
+        cross.push(data1.v_c[i].first, data1.v_c[i].second * data2.v_c[i].second);
+}

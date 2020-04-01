@@ -129,6 +129,10 @@ namespace vemath {
             return _phase;
         }
 
+        void clear() {
+            v_c.clear();
+        }
+
         void adaptiveFilter(int sensitive = 10) {
             double max_ampl = 0;
             for(auto el : v_c)
@@ -163,6 +167,9 @@ namespace vemath {
     void highFilter(const ComplexPlot& in, ComplexPlot& out, int freq = 0);
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
+
+    //cross
+    void cross(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
 
     //return min x from ComplexPlot
     double minx(const ComplexPlot& data);

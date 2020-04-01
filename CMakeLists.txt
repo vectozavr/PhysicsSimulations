@@ -9,6 +9,7 @@ add_library(vemath STATIC vemath.h vemath.cpp)
 add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
 add_executable(POTENTIAL potential.cpp settings.h)
+add_executable(SEMICLASSICAL_OSCILLATION SemiclassicalOscillation.cpp settings.h)
 
 add_executable(COVID19 covid19.cpp settings.h)
 
