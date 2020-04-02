@@ -17,7 +17,7 @@ int main() {
     ComplexPlot transform1;     // sin(x) -> frequency spectra
 
 
-    int quantity = 500;
+    int quantity = 5000;
     for(int i = 0; i < quantity; i++) {
         double x = (double)i/quantity * 15;
 
@@ -42,6 +42,7 @@ int main() {
     // 2 METHOD
     ComplexPlot resConv;
     ComplexPlot test;
+    ComplexPlot invSinc;
 
     fourierTransform(frequencyStep, frequencyStep_transform);
     convolution(data1, frequencyStep_transform, resConv);
@@ -56,19 +57,26 @@ int main() {
     resConv.cut(resConv.size()/2, resConv.size());
     saveVectorPoint2DToFile(resConv.real(), "resConv.dat", resConv.size()/2);
 
+    frequencyStep_transform.cut(0, frequencyStep_transform.size()/4);
+    inverseFourierTransform(frequencyStep_transform,invSinc);
+    saveVectorPoint2DToFile(invSinc.real(), "invSinc.dat", invSinc.size()/4);
+
     saveVectorPoint2DToFile(test.real(), "test.dat");
     // GRAPH PLOT
     GnuplotPipe gp;
-    gp.sendLine(R"(set multiplot layout 2, 3)");
-    gp.sendLine(R"(unset key)");
+    //gp.sendLine(R"(set multiplot layout 2, 3)");
+    //gp.sendLine(R"(set key spacing 1.5)");
+    //gp.sendLine(R"(unset key)");
+//
+    //gp.sendLine(R"(plot "data1.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep.dat" with lines)");
+    //gp.sendLine(R"(plot "inv_resCross.dat" with lines)");
+//
+    //gp.sendLine(R"(plot "data1.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_transform.dat" with lines)");
+    //gp.sendLine(R"(plot "resConv.dat" with lines)");
 
-    gp.sendLine(R"(plot "data1.dat" with lines)");
-    gp.sendLine(R"(plot "frequencyStep.dat" with lines)");
-    gp.sendLine(R"(plot "inv_resCross.dat" with lines)");
-
-    gp.sendLine(R"(plot "data1.dat" with lines)");
-    gp.sendLine(R"(plot "frequencyStep_transform.dat" with lines)");
-    gp.sendLine(R"(plot "resConv.dat" with lines)");
+    gp.sendLine(R"(plot "invSinc.dat" with lines)");
 
     return 0;
 }

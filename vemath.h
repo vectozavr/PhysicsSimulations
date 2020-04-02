@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <complex>
+#include <functional>
 #include "settings.h"
 
 namespace vemath {
