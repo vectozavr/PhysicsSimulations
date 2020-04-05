@@ -81,7 +81,7 @@ double En (int n, double E, double gamma) {
 }
 
 int main() {
-    double gamma = 10;
+    double gamma = 21;
     double E = 10;
 
     ComplexPlot specter;
