@@ -95,10 +95,11 @@ namespace vemath {
         [[nodiscard]] double abs() const {return sqrt(real*real + imagine*imagine); }
     };
     struct ComplexPlot {
-        double _xn = 1;
+        std::vector<std::pair<double, std::complex<double>>> v_c;
+
         [[nodiscard]] double xn() const { return _xn; }
 
-        std::vector<std::pair<double, std::complex<double>>> v_c;
+        double _xn = 1;
 
         unsigned long long size() const { return v_c.size(); }
 

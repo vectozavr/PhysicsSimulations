@@ -10,6 +10,7 @@ add_executable(TURTLE turtle.cpp settings.h)
 add_executable(SALUTE salute.cpp settings.h)
 add_executable(POTENTIAL potential.cpp settings.h)
 add_executable(SEMICLASSICAL_OSCILLATION SemiclassicalOscillation.cpp gnuplot.h)
+add_executable(LINEAR_DIFFERENTIAL_EQUATION linearDifferentialEquation.cpp gnuplot.h)
 
 add_executable(COVID19 covid19.cpp settings.h)
 
@@ -27,6 +28,7 @@ target_link_libraries(TURTLE sfml-audio sfml-network sfml-graphics sfml-window s
 target_link_libraries(SALUTE sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 target_link_libraries(POTENTIAL sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 target_link_libraries(SEMICLASSICAL_OSCILLATION vemath)
+target_link_libraries(LINEAR_DIFFERENTIAL_EQUATION vemath)
 
 target_link_libraries(COVID19 sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 
