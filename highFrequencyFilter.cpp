@@ -98,6 +98,8 @@ int main() {
 
     // SAVING DATA
 
+    saveVectorPoint2DToFile(frequencyStep.real(), "frequencyStep.dat");
+
     saveVectorPoint2DToFile(sum_sins.real(), "sum_sins.dat");
     saveVectorPoint2DToFile(sum_sins_FILTERED.real(), "sum_sins_FILTERED.dat");
     saveVectorPoint2DToFile(sum_sins_SPECTRA1.abs(), "sum_sins_SPECTRA1.dat", sum_sins_SPECTRA1.size()/8);
@@ -125,12 +127,12 @@ int main() {
 
     // GRAPH PLOT
     GnuplotPipe gp;
-    gp.sendLine(R"(set multiplot layout 5, 4)");
+    gp.sendLine(R"(set multiplot layout 3, 4)");
     gp.sendLine(R"(set key spacing 1.5)");
     gp.sendLine(R"(unset key)");
 
     gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_SPECTRA1.dat" with lines)");
+    gp.sendLine(R"(plot "sum_sins_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
     gp.sendLine(R"(plot "sum_sins_FILTERED.dat" with lines)");
     gp.sendLine(R"(plot "sum_sins_SPECTRA2.dat" with lines)");
 
@@ -143,16 +145,16 @@ int main() {
     gp.sendLine(R"(plot "sin_low_SPECTRA1.dat" with lines)");
     gp.sendLine(R"(plot "sin_low_FILTERED.dat" with lines)");
     gp.sendLine(R"(plot "sin_low_SPECTRA2.dat" with lines)");
-
-    gp.sendLine(R"(plot "half_sin_low_half_sin_high.dat" with lines)");
-    gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA1.dat" with lines)");
-    gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
-
-    gp.sendLine(R"(plot "periodic_step.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
+//
+    //gp.sendLine(R"(plot "half_sin_low_half_sin_high.dat" with lines)");
+    //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA1.dat" with lines)");
+    //gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
+//
+    //gp.sendLine(R"(plot "periodic_step.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
 
     return 0;
 }

@@ -11,9 +11,9 @@ using namespace vemath;
 
 #define PI 3.1415926535
 
-#define X_MIN 0.5
-#define X_ERROR 0.005
-#define E_ERROR 0.9
+#define X_MIN pow(2, (double)1/6)
+#define X_ERROR 0.0005
+#define E_ERROR 0.0005
 
 double V(double x) {
     return 4*(pow(x, -12) - pow(x, -6));
@@ -57,34 +57,49 @@ double integral_fun(double En, double x) {
         return 0;
 }
 
-double s(double gamma, double E, double En, int n, double h = 0.01) {
+double s(double E, double gamma, double h = 0.01) {
     double d_from = x_in(E);
     double d_to   = x_out(E);
 
     double d_s = 0;
     double d_x = d_from;
     while(d_x < d_to) {
-        d_s += integral_fun(En, d_x) + 4*integral_fun(En, d_x + h) + integral_fun(En, d_x + 2*h);
+        d_s += integral_fun(E, d_x) + 4*integral_fun(E, d_x + h) + integral_fun(E, d_x + 2*h);
         d_x += 2*h;
     }
-    return gamma * d_s * h / 3 - (n + 0.5)*2*PI;
+    return gamma * d_s * h / 3;
 }
 
-double En (int n, double E, double gamma) {
-    double d_En_old = -1;
-    double d_En = d_En_old + abs(d_En_old)/4;
-    double d_s;
-    do {
-        d_s = s(gamma, E, d_En, n);
-        d_En -= d_s*(d_En - d_En_old)/(d_s - s(gamma, E, d_En_old, n));
-    } while (abs(d_s) > E_ERROR);
+int N(double E, double gamma, double h = 0.01) {
+    return (int)(s(E, gamma, h)/PI - 0.5);
+}
+
+double En (double gamma, int n, double h = 0.01) {
+    double E1 = -1;
+    double E2 = E1 + abs(E1)/4;
+    double F1 = -(double)PI/2;
+    double F2 = 0;
+
+    double dE = 2*E_ERROR;
+    double E = 0;
+
+    while (abs(dE) > E_ERROR) {
+        E = E2;
+        F2 = s(E, gamma, h) - (n + 0.5)*PI;
+        if(F2 == F1)
+            break;
+        dE = -F2*(E2 - E1)/(F2 - F1);
+        E1 = E2;
+        F1 = F2;
+        E2 = E1 + dE;
+        if(E2 > 0) E2 = -E_ERROR;
+    }
+
+    return E;
 }
 
 int main() {
-    double gamma = 10;
-    double E1 = 10;
-    double E2 = 20;
-
+    double gamma = 100;
 
     ComplexPlot potentialV;
     for(int k = 10; k < 1000; k++) {
@@ -93,14 +108,14 @@ int main() {
     saveVectorPoint2DToFile(potentialV.real(), "p.dat");
 
     vector<ComplexPlot> plots;
-    int d_plots = 5;
-    for(int i = 0; i < d_plots; i++) {
-        double E = En(i*3+10, -0.1, gamma);
-        //double E = -(double)(i+1)/10;
+
+    int i_N = N(-E_ERROR, gamma); // Кол-во уровней.
+    for(int i = 0; i < i_N; i++) {
+        double E = En(gamma, i);
         ComplexPlot plot;
 
-        plot.push(x_in(-E), {-E, 0});
-        plot.push(x_out(-E), {-E, 0});
+        plot.push(x_in(E), {E, 0});
+        plot.push(x_out(E), {E, 0});
 
         string name = "plot_" + to_string(i);
 
@@ -113,7 +128,7 @@ int main() {
 
     string gpLine;
     gpLine += R"(plot "p.dat" with lines, )";
-    for(int k = 0; k < d_plots; k++) {
+    for(int k = 0; k < i_N; k++) {
         string name = "plot_" + to_string(k);
         gpLine += R"(")";
         gpLine += name;
@@ -121,8 +136,7 @@ int main() {
     }
     gp.sendLine(gpLine);
 
-    cout << x_in(-0.2) << endl;
-    cout << x_in(-0.7) << endl;
+    cout << N(-E_ERROR, gamma) << endl;
     //gp.sendLine(R"(plot "specter1.dat" with lines,  "specter2.dat" with lines)");
 }
 
