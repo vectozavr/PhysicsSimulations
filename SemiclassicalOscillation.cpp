@@ -21,7 +21,7 @@ double V(double x) {
 
 double x_in(double En) {
     double d_dx = 0.1;
-    double d_Xin = X_MIN;
+    double d_Xin = X_ERROR;
 
     while(d_dx > X_ERROR && (d_Xin < 10)) {
         if( V(d_Xin) >= En ) {
@@ -139,4 +139,3 @@ int main() {
     cout << N(-E_ERROR, gamma) << endl;
     //gp.sendLine(R"(plot "specter1.dat" with lines,  "specter2.dat" with lines)");
 }
-
