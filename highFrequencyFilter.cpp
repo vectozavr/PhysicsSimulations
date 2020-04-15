@@ -38,19 +38,28 @@ int main() {
     ComplexPlot half_sin_low_half_sin_high_SPECTRA2;
     ComplexPlot periodic_step_SPECTRA2;
 
-
     int quantity = 500;
+    double filter_width = (double)quantity/10;
+
     for(int i = 0; i < quantity; i++) {
         double x = (double)i/quantity * 15;
+        double t = (double)i/quantity * 10 * PI;
 
-        if(i < quantity/10)
-            frequencyStep.push(i, {1.0001, 0});
+        double phase = 0;
+        if(i < filter_width)
+            phase = 2*PI*i/filter_width;
+        else if(i > quantity - filter_width)
+            phase = 2*PI*(-1 + (i - quantity + filter_width)/filter_width);
+
+
+        if(i < filter_width || i > quantity - filter_width)
+            frequencyStep.push(i, {1*cos(phase), 1*sin(phase)});
         else
             frequencyStep.push(i, {0, 0});
 
-        sum_sins.push(i, {sin(x) + sin(4*x), 0});
+        sum_sins.push(i, {sin(t) + sin(4*t), 0});
 
-        sin_high.push(i, {sin(10*x), 0});
+        sin_high.push(i, {sin(15*t), 0});
 
         sin_low.push(i, {sin(x), 0});
 
@@ -98,61 +107,66 @@ int main() {
 
     // SAVING DATA
 
-    saveVectorPoint2DToFile(frequencyStep.real(), "frequencyStep.dat");
+    saveVectorPoint2DToFile(frequencyStep.abs(), "frequencyStep.dat");
+    saveVectorPoint2DToFile(frequencyStep.phase(), "frequencyStep_phase.dat");
+
+    saveVectorPoint2DToFile(frequencyStep_transform.abs(), "frequencyStep_transform.dat");
+    saveVectorPoint2DToFile(frequencyStep_transform.phase(), "frequencyStep_transform_phase.dat");
 
     saveVectorPoint2DToFile(sum_sins.real(), "sum_sins.dat");
-    saveVectorPoint2DToFile(sum_sins_FILTERED.real(), "sum_sins_FILTERED.dat");
-    saveVectorPoint2DToFile(sum_sins_SPECTRA1.abs(), "sum_sins_SPECTRA1.dat", sum_sins_SPECTRA1.size()/8);
+    saveVectorPoint2DToFile(sum_sins_FILTERED.real(), "sum_sins_FILTERED.dat", sum_sins_FILTERED.size()/2);
+    saveVectorPoint2DToFile(sum_sins_SPECTRA1.abs(), "sum_sins_SPECTRA1.dat");
     saveVectorPoint2DToFile(sum_sins_SPECTRA2.abs(), "sum_sins_SPECTRA2.dat");
 
     saveVectorPoint2DToFile(sin_high.real(), "sin_high.dat");
-    saveVectorPoint2DToFile(sin_high_FILTERED.real(), "sin_high_FILTERED.dat");
+    saveVectorPoint2DToFile(sin_high_FILTERED.real(), "sin_high_FILTERED.dat", sin_high_FILTERED.size()/2);
     saveVectorPoint2DToFile(sin_high_SPECTRA1.abs(), "sin_high_SPECTRA1.dat");
     saveVectorPoint2DToFile(sin_high_SPECTRA2.abs(), "sin_high_SPECTRA2.dat");
 
     saveVectorPoint2DToFile(sin_low.real(), "sin_low.dat");
-    saveVectorPoint2DToFile(sin_low_FILTERED.real(), "sin_low_FILTERED.dat");
+    saveVectorPoint2DToFile(sin_low_FILTERED.real(), "sin_low_FILTERED.dat", sin_low_FILTERED.size()/2);
     saveVectorPoint2DToFile(sin_low_SPECTRA1.abs(), "sin_low_SPECTRA1.dat");
     saveVectorPoint2DToFile(sin_low_SPECTRA2.abs(), "sin_low_SPECTRA2.dat");
 
     saveVectorPoint2DToFile(half_sin_low_half_sin_high.real(), "half_sin_low_half_sin_high.dat");
-    saveVectorPoint2DToFile(half_sin_low_half_sin_high_FILTERED.real(), "half_sin_low_half_sin_high_FILTERED.dat");
+    saveVectorPoint2DToFile(half_sin_low_half_sin_high_FILTERED.real(), "half_sin_low_half_sin_high_FILTERED.dat", half_sin_low_half_sin_high_FILTERED.size()/2);
     saveVectorPoint2DToFile(half_sin_low_half_sin_high_SPECTRA1.abs(), "half_sin_low_half_sin_high_SPECTRA1.dat");
     saveVectorPoint2DToFile(half_sin_low_half_sin_high_SPECTRA2.abs(), "half_sin_low_half_sin_high_SPECTRA2.dat");
 
     saveVectorPoint2DToFile(periodic_step.real(), "periodic_step.dat");
-    saveVectorPoint2DToFile(periodic_step_FILTERED.real(), "periodic_step_FILTERED.dat");
+    saveVectorPoint2DToFile(periodic_step_FILTERED.real(), "periodic_step_FILTERED.dat", periodic_step_FILTERED.size()/2);
     saveVectorPoint2DToFile(periodic_step_SPECTRA1.abs(), "periodic_step_SPECTRA1.dat");
     saveVectorPoint2DToFile(periodic_step_SPECTRA2.abs(), "periodic_step_SPECTRA2.dat");
 
     // GRAPH PLOT
     GnuplotPipe gp;
-    gp.sendLine(R"(set multiplot layout 3, 4)");
+    gp.sendLine(R"(set multiplot layout 4, 1)");
     gp.sendLine(R"(set key spacing 1.5)");
     gp.sendLine(R"(unset key)");
 
-    gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_SPECTRA2.dat" with lines)");
+
+    //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_phase.dat" with lines, "frequencyStep.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_SPECTRA2.dat" with lines)");
 
     gp.sendLine(R"(plot "sin_high.dat" with lines)");
-    gp.sendLine(R"(plot "sin_high_SPECTRA1.dat" with lines)");
+    gp.sendLine(R"(plot "sin_high_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
     gp.sendLine(R"(plot "sin_high_FILTERED.dat" with lines)");
     gp.sendLine(R"(plot "sin_high_SPECTRA2.dat" with lines)");
-
-    gp.sendLine(R"(plot "sin_low.dat" with lines)");
-    gp.sendLine(R"(plot "sin_low_SPECTRA1.dat" with lines)");
-    gp.sendLine(R"(plot "sin_low_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "sin_low_SPECTRA2.dat" with lines)");
+//
+    //gp.sendLine(R"(plot "sin_low.dat" with lines)");
+    //gp.sendLine(R"(plot "sin_low_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
+    //gp.sendLine(R"(plot "sin_low_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "sin_low_SPECTRA2.dat" with lines)");
 //
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high.dat" with lines)");
-    //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA1.dat" with lines)");
+    //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
 //
     //gp.sendLine(R"(plot "periodic_step.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
     //gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
     //gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
 

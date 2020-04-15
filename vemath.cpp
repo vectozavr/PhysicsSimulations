@@ -43,7 +43,7 @@ void vemath::inverseFourierTransform(const ComplexPlot& data, ComplexPlot& trans
             std::complex<double> tr = {cos(p), sin(p)};
             transformed += data.v_c[n].second * tr;
         }
-        transform.push(k*data.xn()/data.size(), transformed);
+        transform.push(k, transformed);
     }
 }
 
