@@ -43,15 +43,15 @@ int main() {
     ComplexPlot periodic_step_SPECTRA2;
 
     int quantity = 500;
-    double filter_width = (double)quantity/10;
+    double filter_width = (double)quantity/4;
 
     for(int i = 0; i < quantity; i++) {
         double x = (double)i/quantity * 15;
         double t = (double)i/quantity * 10 * PI;
 
         double gaussWindow = 0;
-        if((i >= filter_width) && (i <= quantity - filter_width))
-            gaussWindow = exp(-(i-filter_width)*(i-filter_width)/100) + exp(-(i-quantity+filter_width)*(i-quantity+filter_width)/100);
+        if(!(i > quantity/2 - filter_width && i < quantity/2 + filter_width))
+            gaussWindow = exp(-(i-quantity/2 + filter_width)*(i-quantity/2 + filter_width)/100) + exp(-(i-quantity/2-filter_width)*(i-quantity/2-filter_width)/100);
         // quantity - общее число точек
         // filter_width - ширина фильтра (измеряемая в количестве точек)
         double phase = 0; // По умолчанию фаза = 0
@@ -62,23 +62,23 @@ int main() {
             // Если мы в начале, то фаза лежит в интервале [-PI, 0]
             phase = 0*PI*(-1 + (i - quantity + filter_width)/filter_width);
 
-        if(i < filter_width || i > quantity - filter_width)
+        if(i > quantity/2 - filter_width && i < quantity/2 + filter_width)
             // Если мы в начале или в конце, то задаём модуль единицу, учитывая фазу:
             frequencyStep.push(i, {1.0001*cos(phase), 1.0001*sin(phase)});
         else
             // Если мы в середине, то модуль ноль и фаза ноль.
             frequencyStep.push(i, {gaussWindow*cos(phase), gaussWindow*sin(phase)});
 
-        sum_sins.push(i, {sin(t) + sin(4*t), 0});
+        sum_sins.push(i, {sin(30*t) + sin(4*t), 0});
 
-        sin_high.push(i, {sin(9*t), 0});
+        sin_high.push(i, {sin(30*t), 0});
 
         sin_low.push(i, {sin(x), 0});
 
         if(i < quantity/2)
-            half_sin_low_half_sin_high.push(i, {sin(x), 0});
+            half_sin_low_half_sin_high.push(i, {sin(4*t), 0});
         else
-            half_sin_low_half_sin_high.push(i, {sin(45*x), 0});
+            half_sin_low_half_sin_high.push(i, {sin(30*t), 0});
 
         if((int)(i / 10) % 2 == 0)
             periodic_step.push(i, {1.0001, 0});
@@ -196,10 +196,10 @@ int main() {
     gp.sendLine(R"(unset key)");
 
     // step check:
-    gp.sendLine(R"(plot "frequencyStep_cutted.dat" with lines)");
-    gp.sendLine(R"(plot "frequencyStep_cutted_phase.dat" with lines)");
-    gp.sendLine(R"(plot "frequencyStep_transform_cutted_real.dat" with lines)");
-    gp.sendLine(R"(plot "frequencyStep_transform_cutted_image.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_cutted.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_cutted_phase.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_transform_cutted_real.dat" with lines)");
+    //gp.sendLine(R"(plot "frequencyStep_transform_cutted_image.dat" with lines)");
 
 
     //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
@@ -222,10 +222,10 @@ int main() {
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
 //
-    //gp.sendLine(R"(plot "periodic_step.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
 
     return 0;
 }
