@@ -142,6 +142,7 @@ void vemath::cross(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPl
         cross.push(data1.v_c[i].first, data1.v_c[i].second * data2.v_c[i].second);
 }
 
+/*
 // simple fourier transform of 2D plot. Without imagine component.
 void vemath::fftw_fourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
     fftw_complex *in = (fftw_complex*) malloc(data.size() * sizeof(fftw_complex));
@@ -198,3 +199,4 @@ void vemath::fftw_convolution(const ComplexPlot& data1, const ComplexPlot& data2
 void vemath::fftw_crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross) {
 
 }
+ */

@@ -12,7 +12,6 @@
 #include <complex>
 #include <functional>
 #include "settings.h"
-#include "fftw/fftw3.h"
 
 typedef std::complex<double> comp;
 
@@ -187,6 +186,7 @@ namespace vemath {
 
     [[nodiscard]] Point3D randomDirection(int seed = 1234);
 
+    /*
     // fftw library
     // simple fourier transform of 2D plot. Without imagine component.
     void fftw_fourierTransform(const ComplexPlot& data, ComplexPlot& transform);
@@ -196,5 +196,6 @@ namespace vemath {
     void fftw_convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv);
     // cross corelation of 2 2D plots <data1> and <data2>. result in <conv>
     void fftw_crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
+     */
 }
 #endif //PHYSICSSIMULATIONS_VEMATH_H
