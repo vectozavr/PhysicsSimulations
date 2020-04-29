@@ -4,6 +4,7 @@
 
 #include "gnuplot.h"
 #include "vemath.h"
+#include "fftw/fftw3.h"
 
 using namespace vemath;
 

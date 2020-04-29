@@ -1,6 +1,7 @@
 //
 // Created by ivan- on 09.04.2020.
 //
+
 #include <cmath>
 #include <iostream>
 #include "gnuplot.h"

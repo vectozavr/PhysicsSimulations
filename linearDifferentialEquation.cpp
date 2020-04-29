@@ -2,9 +2,6 @@
 // Created by ivan- on 08.04.2020.
 //
 
-//
-// Created by ivan- on 31.03.2020.
-//
 #include <cmath>
 #include <iostream>
 #include "gnuplot.h"

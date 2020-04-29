@@ -2,9 +2,14 @@
 // Created by ivan-Vectozavr on 17.02.2020.
 //
 
+#include <stack>
 #include "vemath.h"
 
+#define REAL 0
+#define IMAG 1
+
 using namespace vemath;
+using namespace std;
 
 bool vemath::saveVectorPoint2DToFile(const std::vector<vemath::Point2D> &data, const std::string &fileName, unsigned long long N) {
     std::ofstream _ofstream(fileName);
@@ -135,4 +140,61 @@ void vemath::cross(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPl
     int i_min = data2.size() > data1.size() ? data1.size() : data2.size();
     for(int i = 0; i < i_min; i++)
         cross.push(data1.v_c[i].first, data1.v_c[i].second * data2.v_c[i].second);
+}
+
+// simple fourier transform of 2D plot. Without imagine component.
+void vemath::fftw_fourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
+    fftw_complex *in = (fftw_complex*) malloc(data.size() * sizeof(fftw_complex));
+    fftw_complex *out = (fftw_complex*) malloc(data.size() * sizeof(fftw_complex));
+
+    for(int i = 0; i < data.size(); i++) {
+        in[i][REAL] = data.v_c[i].second.real();
+        in[i][IMAG] = data.v_c[i].second.imag();
+    }
+
+    // create a DFT plan
+    fftw_plan plan = fftw_plan_dft_1d(data.size(), in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+    // execute the plan
+    fftw_execute(plan);
+    // do some cleaning
+    fftw_destroy_plan(plan);
+    fftw_cleanup();
+
+    for(int k = 0; k < data.size(); k++) {
+        transform.push(k, {out[k][REAL], out[k][IMAG]});
+    }
+    free(in);
+    free(out);
+}
+// add some noise to 2D plot <data> with amplitude <noiseAmplitude>
+void vemath::fftw_inverseFourierTransform(const ComplexPlot& data, ComplexPlot& transform) {
+    fftw_complex *in = (fftw_complex*) malloc(data.size() * sizeof(fftw_complex));
+    fftw_complex *out = (fftw_complex*) malloc(data.size() * sizeof(fftw_complex));
+
+    for(int i = 0; i < data.size(); i++) {
+        in[i][REAL] = data.v_c[i].second.real();
+        in[i][IMAG] = data.v_c[i].second.imag();
+    }
+
+    // create a DFT plan
+    fftw_plan plan = fftw_plan_dft_1d(data.size(), in, out, FFTW_BACKWARD, FFTW_ESTIMATE);
+    // execute the plan
+    fftw_execute(plan);
+    // do some cleaning
+    fftw_destroy_plan(plan);
+    fftw_cleanup();
+
+    for(int k = 0; k < data.size(); k++) {
+        transform.push(k, {out[k][REAL]/data.size(), out[k][IMAG]/data.size()});
+    }
+    free(in);
+    free(out);
+}
+// convolution of 2 2D plots <data1> and <data2>. result in <conv>
+void vemath::fftw_convolution(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& conv) {
+
+}
+// cross corelation of 2 2D plots <data1> and <data2>. result in <conv>
+void vemath::fftw_crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross) {
+
 }
