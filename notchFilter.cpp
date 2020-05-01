@@ -79,7 +79,7 @@ int main() {
         else
             frequencyStep_low.push(i, {gaussWindow_low*cos(phase), gaussWindow_low*sin(phase)});
 
-        sum_sins.push(i, {sin(30*t) + sin(4*t) + sin(8*t) + sin(16*t), 0});
+        sum_sins.push(i, {sin(30*t) + sin(4*t) + sin(8*t) + sin(16*t) + sin(40*t), 0});
 
         sin_high.push(i, {sin(30*t), 0});
 

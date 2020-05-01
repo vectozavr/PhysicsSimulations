@@ -20,6 +20,7 @@ add_executable(CONVOLUTION_AND_CROSS_CORELATION convolutionAndCrossCorelation.cp
 add_executable(LOW_FREQUENCY_FILTER lowFrequaencyFilter.cpp settings.h gnuplot.h)
 add_executable(HIGH_FREQUENCY_FILTER highFrequencyFilter.cpp settings.h gnuplot.h)
 add_executable(NOTCH_FILTER notchFilter.cpp settings.h gnuplot.h)
+add_executable(SAMPLE_RATE_CONVERTION SampleRateConversion.cpp settings.h gnuplot.h)
 
 # SFML Librares
 set(SFML_DIR "D:/Libraries/SFML/lib/cmake/SFML")
@@ -41,6 +42,7 @@ target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)
 target_link_libraries(LOW_FREQUENCY_FILTER vemath)
 target_link_libraries(HIGH_FREQUENCY_FILTER vemath)
 target_link_libraries(NOTCH_FILTER vemath)
+target_link_libraries(SAMPLE_RATE_CONVERTION vemath)
 
 # fftw
 # target_link_libraries(main ${CMAKE_SOURCE_DIR}/libbingitup.a)
