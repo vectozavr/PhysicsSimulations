@@ -9,6 +9,20 @@
 using namespace vemath;
 using namespace std;
 
+pair<int, int> PQ(int f_In, int f_out) {
+    int a = f_In;
+    int b = f_out;
+    int div = 1;
+
+    while(a > 0 && b > 0)
+        if (a > b)
+            a %= b;
+        else
+            b %= a;
+    div = a + b;
+    return {(int)f_In/div, (int)f_out/div};
+}
+
 int main() {
 
     ComplexPlot frequencyStep;              // step
@@ -23,6 +37,16 @@ int main() {
     ComplexPlot sum_sins_SPECTRA2;
 
     int quantity = 500;
+
+    int f_0 = quantity;
+    int f_In = f_0;
+    //int f_out = 2*f_0;
+    int f_out = 1.5*f_0;
+
+    int P = PQ(f_In, f_out).first;
+    int Q = PQ(f_In, f_out).second;
+
+
     double filter_width = (double)quantity/10;
 
     for(int i = 0; i < quantity; i++) {
@@ -49,11 +73,27 @@ int main() {
             // Если мы в середине, то модуль ноль и фаза ноль.
             frequencyStep.push(i, {gaussWindow*cos(phase), gaussWindow*sin(phase)});
 
-        sum_sins.push(i, {sin(t) + sin(4*t), 0});
-    }
+        // summ
+        sum_sins.push(i, {sin(3*t) + sin(t), 0});
 
-    int P = 4;
-    int Q = 5;
+        // sin high
+        //sum_sins.push(i, {sin(10*t), 0});
+
+        // sin low
+        //sum_sins.push(i, {sin(0.2*t), 0});
+
+        // half sin 4, half - 30
+        //if(i < quantity/2)
+        //    sum_sins.push(i, {sin(t), 0});
+        //else
+        //    sum_sins.push(i, {sin(3*t), 0});
+
+        // periodic step
+        //if((int)(i / 20) % 2 == 0)
+        //    sum_sins.push(i, {1.0001, 0});
+        //else
+        //    sum_sins.push(i, {0, 0});
+    }
 
     // Increase frequency in P times
     ComplexPlot sum_sins_P;
@@ -178,7 +218,7 @@ int main() {
 
     // GRAPH PLOT
     GnuplotPipe gp;
-    gp.sendLine(R"(unset key)");
+    //gp.sendLine(R"(unset key)");
 
     // 1 step: increasing frequency in P times
     //gp.sendLine(R"(set multiplot layout 4, 1)");
@@ -188,16 +228,14 @@ int main() {
     //gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
 
     // 2 step: decreasing frequency in Q times
-    gp.sendLine(R"(set multiplot layout 4, 1)");
-    gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_P_FILTERED_SPECTRA.dat" with lines, "freq_Step_2_CUTTED.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_P_Q_RESULT.dat" with lines)");
+    //gp.sendLine(R"(set multiplot layout 4, 1)");
+    //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_P_FILTERED_SPECTRA.dat" with lines, "freq_Step_2_CUTTED.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_P_Q_RESULT.dat" with lines)");
 
     // Results
-    //gp.sendLine(R"(set multiplot layout 2, 1)");
-    //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    //gp.sendLine(R"(plot "sum_sins_P_Q_RESULT.dat" with lines)");
+    gp.sendLine(R"(plot "sum_sins.dat" with lines, "sum_sins_P_Q_RESULT.dat" with lines)");
 
     return 0;
 }
