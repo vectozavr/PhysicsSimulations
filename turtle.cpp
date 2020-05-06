@@ -54,7 +54,7 @@ int main() {
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
 
-    unsigned long long N = 100;
+    unsigned long long N = 50;
     double R = 30*100;
     double velocity = 3;
 
@@ -92,7 +92,7 @@ int main() {
                 window.close();
         }
 
-        double plus = calculateShift(0.1f, turtles, velocity);
+        double plus = calculateShift(1.0f, turtles, velocity);
         totalTime += plus;
 
         //cout << totalTime << endl;

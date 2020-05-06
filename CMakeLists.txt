@@ -12,6 +12,7 @@ add_executable(POTENTIAL potential.cpp settings.h)
 add_executable(SEMICLASSICAL_OSCILLATION SemiclassicalOscillation.cpp gnuplot.h)
 add_executable(LINEAR_DIFFERENTIAL_EQUATION linearDifferentialEquation.cpp gnuplot.h)
 add_executable(DIFF_EQUATION_1 diffEquation1.cpp gnuplot.h)
+add_executable(BROWNIAN_MOTION brownianMotion.cpp gnuplot.h)
 
 add_executable(COVID19 covid19.cpp settings.h)
 
@@ -36,6 +37,7 @@ target_link_libraries(LINEAR_DIFFERENTIAL_EQUATION vemath)
 target_link_libraries(DIFF_EQUATION_1 vemath)
 
 target_link_libraries(COVID19 sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+target_link_libraries(BROWNIAN_MOTION sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)

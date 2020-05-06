@@ -71,7 +71,7 @@ int main() {
 
         sum_sins.push(i, {sin(t) + sin(4*t) + sin(16*t), 0});
 
-        sin_high.push(i, {sin(9*t), 0});
+        sin_high.push(i, {sin(15*t), 0});
 
         sin_low.push(i, {sin(x), 0});
 
@@ -80,7 +80,7 @@ int main() {
         else
             half_sin_low_half_sin_high.push(i, {sin(45*x), 0});
 
-        if((int)(i / 10) % 2 == 0)
+        if((int)(i / 30) % 2 == 0)
             periodic_step.push(i, {1.0001, 0});
         else
             periodic_step.push(i, {0, 0});
@@ -92,7 +92,7 @@ int main() {
     inverseFourierTransform(frequencyStep_transform_cutted, frequencyStep_cutted);
 
     addNoise(half_sin_low_half_sin_high);
-    addNoise(sum_sins, 0.3);
+    addNoise(sum_sins, 1);
 
     // SIMPLE METHOD
     ComplexPlot resCross;
@@ -202,10 +202,10 @@ int main() {
     //gp.sendLine(R"(plot "frequencyStep_transform_cutted_image.dat" with lines)");
 
 
-    gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "sum_sins_SPECTRA2.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins_SPECTRA2.dat" with lines)");
 
     //gp.sendLine(R"(plot "sin_high.dat" with lines)");
     //gp.sendLine(R"(plot "sin_high_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
@@ -222,10 +222,10 @@ int main() {
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
 //
-    //gp.sendLine(R"(plot "periodic_step.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
-    //gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
+    gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
 
     return 0;
 }

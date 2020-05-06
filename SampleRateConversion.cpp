@@ -38,10 +38,12 @@ int main() {
 
     int quantity = 500;
 
+    double f = (double)2.0;
+
     int f_0 = quantity;
     int f_In = f_0;
     //int f_out = 2*f_0;
-    int f_out = 1.5*f_0;
+    int f_out = (double)f*f_0;
 
     int P = PQ(f_In, f_out).first;
     int Q = PQ(f_In, f_out).second;
@@ -74,7 +76,7 @@ int main() {
             frequencyStep.push(i, {gaussWindow*cos(phase), gaussWindow*sin(phase)});
 
         // summ
-        sum_sins.push(i, {sin(3*t) + sin(t), 0});
+        //sum_sins.push(i, {sin(2*t), 0});
 
         // sin high
         //sum_sins.push(i, {sin(10*t), 0});
@@ -89,10 +91,10 @@ int main() {
         //    sum_sins.push(i, {sin(3*t), 0});
 
         // periodic step
-        //if((int)(i / 20) % 2 == 0)
-        //    sum_sins.push(i, {1.0001, 0});
-        //else
-        //    sum_sins.push(i, {0, 0});
+        if((int)(i / 20) % 2 == 0)
+            sum_sins.push(i, {1.0001, 0});
+        else
+            sum_sins.push(i, {0, 0});
     }
 
     // Increase frequency in P times
@@ -210,6 +212,10 @@ int main() {
     saveVectorPoint2DToFile(sum_sins_P_FILTERED.real(), "sum_sins_P_FILTERED.dat");
     saveVectorPoint2DToFile(sum_sins_P_FILTERED_SPECTRA.abs(), "sum_sins_P_FILTERED_SPECTRA.dat");
 
+    //for(int k = 0; k < sum_sins_P_Q_RESULT.v_c.size(); k++) {
+    //    sum_sins_P_Q_RESULT.v_c[k].first *= f;
+    //}
+
     saveVectorPoint2DToFile(sum_sins_P_Q_RESULT.real(), "sum_sins_P_Q_RESULT.dat");
     saveVectorPoint2DToFile(sum_sins_P_Q_SPECTRA.abs(), "sum_sins_P_Q_SPECTRA.dat");
     saveVectorPoint2DToFile(freq_Step_2.abs(), "freq_Step_2.dat");
@@ -228,14 +234,14 @@ int main() {
     //gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
 
     // 2 step: decreasing frequency in Q times
-    //gp.sendLine(R"(set multiplot layout 4, 1)");
-    //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
-    //gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
-    //gp.sendLine(R"(plot "sum_sins_P_FILTERED_SPECTRA.dat" with lines, "freq_Step_2_CUTTED.dat" with lines)");
-    //gp.sendLine(R"(plot "sum_sins_P_Q_RESULT.dat" with lines)");
+    gp.sendLine(R"(set multiplot layout 4, 1)");
+    gp.sendLine(R"(plot "sum_sins.dat" with lines)");
+    gp.sendLine(R"(plot "sum_sins_P_FILTERED.dat" with lines)");
+    gp.sendLine(R"(plot "sum_sins_P_FILTERED_SPECTRA.dat" with lines, "freq_Step_2_CUTTED.dat" with lines)");
+    gp.sendLine(R"(plot "sum_sins_P_Q_RESULT.dat" with lines)");
 
     // Results
-    gp.sendLine(R"(plot "sum_sins.dat" with lines, "sum_sins_P_Q_RESULT.dat" with lines)");
+    //gp.sendLine(R"(plot "sum_sins.dat", "sum_sins_P_Q_RESULT.dat")");
 
     return 0;
 }

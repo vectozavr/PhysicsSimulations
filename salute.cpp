@@ -39,7 +39,7 @@ struct Rocket {
     double explosionPower = 100;
 
     double mass = 0;
-    int numberOfParticles = 50;
+    int numberOfParticles = 5000;
 
     double Ax = 0;
     double Ay = -20.81;
@@ -111,13 +111,13 @@ int main() {
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
 
-    double rocketMass = 12*1000;
+    double rocketMass = 12000*1000;
     double rocketVelocity = 100;
     double explosionHeight = 200;
     double explosionPower = 100;
     int numberOfParticles = 1000;
 
-    int numberOfRockets = 5;
+    int numberOfRockets = 1;
 
     vector<Rocket> v_rockets;
     for(int i = 0; i < numberOfRockets; i++)
@@ -158,7 +158,7 @@ int main() {
                 window.close();
         }
 
-        window.clear();
+        //window.clear();
         double plus = 0;
         for(auto& r : v_rockets) {
             plus = calculateShift(d_elapsedTime, r);

@@ -196,10 +196,10 @@ int main() {
     gp.sendLine(R"(unset key)");
 
     // step check:
-    //gp.sendLine(R"(plot "frequencyStep_cutted.dat" with lines)");
-    //gp.sendLine(R"(plot "frequencyStep_cutted_phase.dat" with lines)");
-    //gp.sendLine(R"(plot "frequencyStep_transform_cutted_real.dat" with lines)");
-    //gp.sendLine(R"(plot "frequencyStep_transform_cutted_image.dat" with lines)");
+    gp.sendLine(R"(plot "frequencyStep_cutted.dat" with lines)");
+    gp.sendLine(R"(plot "frequencyStep_cutted_phase.dat" with lines)");
+    gp.sendLine(R"(plot "frequencyStep_transform_cutted_real.dat" with lines)");
+    gp.sendLine(R"(plot "frequencyStep_transform_cutted_image.dat" with lines)");
 
 
     //gp.sendLine(R"(plot "sum_sins.dat" with lines)");
@@ -222,10 +222,10 @@ int main() {
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_FILTERED.dat" with lines)");
     //gp.sendLine(R"(plot "half_sin_low_half_sin_high_SPECTRA2.dat" with lines)");
 //
-    gp.sendLine(R"(plot "periodic_step.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
-    gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_SPECTRA1.dat" with lines, "frequencyStep_cutted.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_FILTERED.dat" with lines)");
+    //gp.sendLine(R"(plot "periodic_step_SPECTRA2.dat" with lines)");
 
     return 0;
 }
