@@ -2413,8 +2413,8 @@ term.filled_polygon = function(style, fillpar, t)
 end
 
 
-term.boxfill = function(style, fillpar, x1, y1, width, height)
-  local t = {{x1, y1}, {x1+width, y1}, {x1+width, y1+height}, {x1, y1+height}}
+term.boxfill = function(style, fillpar, x1, __y1, width, height)
+  local t = {{x1, __y1}, {x1+width, __y1}, {x1+width, __y1+height}, {x1, __y1+height}}
   return term.filled_polygon(style, fillpar, t)
 end
 

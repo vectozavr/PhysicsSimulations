@@ -158,7 +158,7 @@ int main() {
                 window.close();
         }
 
-        //window.clear();
+        window.clear();
         double plus = 0;
         for(auto& r : v_rockets) {
             plus = calculateShift(d_elapsedTime, r);

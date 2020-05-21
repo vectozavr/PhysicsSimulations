@@ -297,7 +297,7 @@ Fu&nctions
 			besj1([INPUT]Argument[EOS])
 		bessel y0
 			besy0([INPUT]Argument[EOS])
-		bessel y1
+		bessel __y1
 			besy1([INPUT]Argument[EOS])
 		--
 		lambertw

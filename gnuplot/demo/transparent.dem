@@ -8,7 +8,7 @@
 save_encoding = GPVAL_ENCODING
 set encoding utf8
 set style fill solid 1.0 noborder
-set style function filledcurves y1=0
+set style function filledcurves __y1=0
 set clip two
 
 Gauss(x,mu,sigma) = 1./(sigma*sqrt(2*pi)) * exp( -(x-mu)**2 / (2*sigma**2) )

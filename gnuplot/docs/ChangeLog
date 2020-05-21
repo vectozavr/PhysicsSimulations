@@ -1004,10 +1004,10 @@ Release 5.2.1
 	* src/axis.c (reconcile_linked_axes) src/axis.h src/plot2d.c:
 
 	gnuplot version 5.0 always tracked the autoscale range on the primary
-	axis (x1 or y1) of a linked pair, even if the data was actually plotted
-	on x2 or y2.  In verison 5.2 we track the data range on x1 x2 y1 y2
+	axis (x1 or __y1) of a linked pair, even if the data was actually plotted
+	on x2 or y2.  In verison 5.2 we track the data range on x1 x2 __y1 y2
 	separately.  This caused breakage wherever the program assumed the
-	autoscale range on x1 (or y1) was always current.  Worse, it would
+	autoscale range on x1 (or __y1) was always current.  Worse, it would
 	propagate that range onto the secondary axis, possibly overwriting the
 	correct range.  Now we introduce a new routine reconcile_linked_axes()
 	that merges the min/max values from e.g. x1 and x2 so that the 
@@ -5022,7 +5022,7 @@ Release 5.2.0
 	* graphics.c (map_position_double): Fix stupid typo that tried to map a
 	linked y axis through the x mapping function. This always mis-placed
 	objects and labels whose position is given in terms of y2 whenever y2 is
-	linked to y1. Furthermore placement on either x2 or y2 could be wrong if
+	linked to __y1. Furthermore placement on either x2 or y2 could be wrong if
 	the most recent plot did not use that same linked axis.
 
 2016-02-29  Ethan A Merritt  <merritt@u.washington.edu>
@@ -6897,10 +6897,10 @@ Release 5.2.0
 2015-03-02  Ethan A Merritt  <merritt@u.washington.edu>
 
 	* src/tables.c src/graphics.c (plot_filledcurves) docs/gnuplot.doc:
-	The "y1=foo" and "y2=foo" options to the filledcurves style are
+	The "__y1=foo" and "y2=foo" options to the filledcurves style are
 	confusing, as both operate on the current plot's y axis regardless
-	of whether it is y1 or y2.  Rename the option as "y=foo" and remove
-	mention of the older y1= and y2=.  All three are accepted on input.
+	of whether it is __y1 or y2.  Rename the option as "y=foo" and remove
+	mention of the older __y1= and y2=.  All three are accepted on input.
 	Bug #1568
 
 2015-02-26  Ethan A Merritt  <merritt@u.washington.edu>
@@ -7069,7 +7069,7 @@ Release 5.2.0
 2015-02-01  Ethan A Merritt  <merritt@u.washington.edu>
 
 	* src/graphics.c (plot_betweencurves):  This routine now handles both
-	the 3-column variant of filledcurved ("between") and the y1=<yval> or
+	the 3-column variant of filledcurved ("between") and the __y1=<yval> or
 	y2=<yval> variants. In order that various lower level routines do not
 	get confused, set the same options flag FILLEDCURVES_BETWEEN for all
 	of these.  (Bug fix)
@@ -7145,7 +7145,7 @@ Release 5.2.0
 	checks in gstrptime.
 
 	* src/graphics.c src/plot2d.c:  Fix breakage in plot style
-	filledcurves {above|below} y1=<yval>
+	filledcurves {above|below} __y1=<yval>
 
 2015-01-15  Ethan A Merritt  <merritt@u.washington.edu>
 

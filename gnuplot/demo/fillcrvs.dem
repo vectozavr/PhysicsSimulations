@@ -12,7 +12,7 @@ plot [-10:10] [-5:3] \
 	1.5+sin(x)/x with filledcurve x2, \
 	sin(x)/x with filledcurve, \
 	1+sin(x)/x with lines, \
-	-1+sin(x)/x with filledcurve y1=-2, \
+	-1+sin(x)/x with filledcurve __y1=-2, \
 	-2.5+sin(x)/x with filledcurve xy=-5,-4., \
 	-4.3+sin(x)/x with filledcurve x1, \
 	(x>3.5 ? x/3-3 : 1/0) with filledcurve y2
@@ -35,8 +35,8 @@ pause -1 'Press Return to continue'
 set title "Some sqrt stripes on filled graph background"
 plot [0:10] [-8:6] \
 	-8 with filledcurve x2 lt 15, \
-	sqrt(x) with filledcurves y1=-0.5, \
-	sqrt(10-x)-4.5 with filledcurves y1=-5.5
+	sqrt(x) with filledcurves __y1=-0.5, \
+	sqrt(10-x)-4.5 with filledcurves __y1=-5.5
 pause -1 'Press Return to continue'
 
 reset
