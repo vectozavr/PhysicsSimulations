@@ -2,8 +2,8 @@
 // Created by ivan-Vectozavr on 17.02.2020.
 //
 
-#ifndef PHYSICSSIMULATIONS_VEMATH_H
-#define PHYSICSSIMULATIONS_VEMATH_H
+#ifndef PHYSICSSIMULATIONS_vemath_H
+#define PHYSICSSIMULATIONS_vemath_H
 
 #include <cmath>
 #include <vector>
@@ -119,6 +119,29 @@ namespace vemath {
             return real;
         }
 
+        [[nodiscard]] double maxReal() const {
+            double m = v_c[0].second.real();
+            for(int i = 0; i < v_c.size(); i++)
+                if(m < v_c[i].second.real())
+                    m = v_c[i].second.real();
+            return m;
+        }
+
+
+        [[nodiscard]] double midReal() const {
+            double m = 0.0f;
+            for(int i = 0; i < v_c.size(); i++)
+                m += v_c[i].second.real();
+            return m / v_c.size();
+        }
+
+        [[nodiscard]] double sumReal() const {
+            double m = 0.0f;
+            for(int i = 0; i < v_c.size(); i++)
+                m += v_c[i].second.real();
+            return m;
+        }
+
         [[nodiscard]] std::vector<Point2D> imagine() const{
             std::vector<Point2D> imagine;
             for(int i = 0; i < v_c.size(); i++)
@@ -198,4 +221,4 @@ namespace vemath {
     void fftw_crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
      */
 }
-#endif //PHYSICSSIMULATIONS_VEMATH_H
+#endif //PHYSICSSIMULATIONS_vemath_H
