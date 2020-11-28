@@ -15,6 +15,8 @@ add_executable(LINEAR_DIFFERENTIAL_EQUATION linearDifferentialEquation.cpp gnupl
 add_executable(DIFF_EQUATION_1 diffEquation1.cpp gnuplot.h)
 add_executable(BROWNIAN_MOTION brownianMotion.cpp gnuplot.h)
 add_executable(ANY_RANDOM_GRAPH AnyRandomGraph.cpp gnuplot.h)
+add_executable(STATISTICS_IN_SILICON statisticsInSilicon.cpp gnuplot.h)
+
 
 add_executable(COVID19 covid19.cpp settings.h)
 
@@ -97,6 +99,9 @@ target_link_libraries(CRANK_NICOLSON_METHOD sfml-audio sfml-network sfml-graphic
 target_link_libraries(INVERSE_ITERATION vemath)
 target_link_libraries(SPECTRAL_DENSITY vemath)
 target_link_libraries(COURSE_TASK vemath)
+
+target_link_libraries(STATISTICS_IN_SILICON vemath)
+
 # fftw
 # target_link_libraries(main ${CMAKE_SOURCE_DIR}/libbingitup.a)
 
