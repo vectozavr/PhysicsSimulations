@@ -1,6 +1,4 @@
 #
-# $Id: airfoil.dem,v 1.9 2004/09/28 06:06:10 sfeam Exp $
-#
 # This demo shows how to use bezier splines to define NACA four
 # series airfoils and complex variables to define Joukowski
 # Airfoils.  It will be expanded after overplotting in implemented
@@ -30,7 +28,7 @@ set xlabel "NACA6409 -- 9% thick, 40% max camber, 6% camber"
 x0 = 0.0
 y0 = 0.0
 x1 = 0.0
-__y1 = 0.18556
+y1 = 0.18556
 x2 = 0.03571
 y2 = 0.34863
 x3 = 0.10714
@@ -92,7 +90,7 @@ z_x(x) = x0 * bez_d8_i0(x) + x1 * bez_d8_i1(x) + x2 * bez_d8_i2(x) + \
 	 x6 * bez_d8_i6(x) + x7 * bez_d8_i7(x) + x8 * bez_d8_i8(x)
 
 z_y(x, tk) = \
-   y0 * tk * bez_d8_i0(x) + __y1 * tk * bez_d8_i1(x) + y2 * tk * bez_d8_i2(x) + \
+   y0 * tk * bez_d8_i0(x) + y1 * tk * bez_d8_i1(x) + y2 * tk * bez_d8_i2(x) + \
    y3 * tk * bez_d8_i3(x) + y4 * tk * bez_d8_i4(x) + y5 * tk * bez_d8_i5(x) + \
    y6 * tk * bez_d8_i6(x) + y7 * tk * bez_d8_i7(x) + y8 * tk * bez_d8_i8(x)
 
@@ -150,7 +148,7 @@ set style data lines
 set style function lines
 print  "Joukowski Airfoil using Complex Variables" 
 set title "Joukowski Airfoil using Complex Variables" offset 0,0
-set time
+set timestamp
 set yrange [-.2 : 1.8]
 set trange [0: 2*pi]
 set xrange [-.6:.6]

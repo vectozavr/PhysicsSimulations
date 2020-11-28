@@ -100,8 +100,8 @@ tau1(zeta)=1/(zeta-alpha(zeta))
 tau2(zeta)=1/(zeta+alpha(zeta))
 c1(zeta)=(zeta + alpha(zeta))/(2*alpha(zeta))
 c2(zeta)=c1(zeta)-1
-__y1(wnt)=zeta==1?1 - exp(-wnt)*(wnt + 1):0
-y2(wnt)=zeta<1?(1 - (exp(-zeta*wnt)/wdwn(zeta))*sin(wdwn(zeta)*wnt + shift(zeta))):__y1(wnt)
+y1(wnt)=zeta==1?1 - exp(-wnt)*(wnt + 1):0
+y2(wnt)=zeta<1?(1 - (exp(-zeta*wnt)/wdwn(zeta))*sin(wdwn(zeta)*wnt + shift(zeta))):y1(wnt)
 y(wnt)=zeta>1?1-c1(zeta)*exp(-wnt/tau1(zeta))+c2(zeta)*exp(-wnt/tau2(zeta)):y2(wnt)
 plot \
   zeta=.1,y(wnt), \

@@ -1,6 +1,3 @@
-#
-# $Id: all.dem,v 1.79 2017/01/11 04:13:58 sfeam Exp $
-#
 # Executes all demos (OK, MOST demos) in this directory.
 # This serves as a series of unit tests for non-interactive capabilities.
 #
@@ -36,6 +33,10 @@ reset
 
 print "******************** file autoscale.dem ********************"
 load "autoscale.dem"
+reset
+
+print "******************** file bins.dem *************************"
+load "bins.dem"
 reset
 
 print "******************** file smooth_splines.dem ********************"
@@ -79,6 +80,14 @@ print "******************** file poldat.dem ********************"
 load "poldat.dem"
 reset
 
+print "******************** file polar_quadrants.dem ********************"
+load "polar_quadrants.dem"
+reset
+
+print "******************** file orbits.dem ********************"
+load "orbits.dem"
+reset
+
 print "******************** file solar_path.dem ****************"
 load "solar_path.dem"
 reset
@@ -99,6 +108,15 @@ print "******************** file violinplot.dem ********************"
 load "violinplot.dem"
 reset
 
+print "******************** file spiderplot.dem ********************"
+load "spiderplot.dem"
+reset
+
+print "******************** file sampling.dem ********************"
+load "sampling.dem"
+load "sampling2.dem"
+reset
+
 print "******************** file multiplt.dem ********************"
 load "multiplt.dem"
 load "layout.dem"
@@ -114,6 +132,10 @@ reset
 
 print "******************** file hidden.dem ********************"
 load "hidden.dem"
+reset
+
+print "******************** file hidden_compare.dem ********************"
+load "hidden_compare.dem"
 reset
 
 print "******************** file dgrid3d.dem ********************"
@@ -177,12 +199,17 @@ print "******************** file azimuth.dem ********************"
 load "azimuth.dem"
 reset
 
-print "******************** file contours.dem ********************"
-load "contours.dem"
+print "******************** file projection.dem ******************"
+load "projection.dem"
 reset
 
-print "******************** file multimsh.dem ********************"
-load "multimsh.dem"
+print "******************** file contours.dem ********************"
+load "contours.dem"
+load "custom_contours.dem"
+reset
+
+print "******************** file pixmap.dem ********************"
+load "pixmap.dem"
 reset
 
 print "******************** file bivariat.dem ********************"
@@ -194,9 +221,9 @@ load "timedat.dem"
 load "gantt.dem"
 reset
 
-print "******************** file animate.dem ********************"
-load "animate.dem"
-reset
+# print "******************** file animate.dem ********************"
+# load "animate.dem"
+# reset
 
 print "********************** file rainbow.dem *********************"
 load "rainbow.dem"
@@ -216,6 +243,10 @@ reset
 
 print "********************** file pm3d.dem *********************"
 load "pm3d.dem"
+reset
+
+print "********************** file pm3d_clip.dem *********************"
+load "pm3d_clip.dem"
 reset
 
 print "********************** file pm3dcolors.dem *********************"
@@ -260,18 +291,26 @@ if (GPVAL_TERM eq "postscript") {
 } else {
     load "enhanced_utf8.dem"
 }
+load "bolditalic.dem"
+reset
+
+print "********************** unicode text *********************"
+load "unicode.dem"
+
+print "********************** file dashtypes.dem *********************"
+load "dashtypes.dem"
 reset
 
 print "********************** file arrowstyle.dem *********************"
 load "arrowstyle.dem"
 reset
 
-print "********************** file dashtypes.dem *********************"
-load "dashtypes.dem"
-reset
-
 print "********************** file vector.dem *********************"
 load "vector.dem"
+reset
+
+print "********************** file short_vector.dem *********************"
+load "short_vector.dem"
 reset
 
 print "********************** file tics.dem *********************"
@@ -317,7 +356,11 @@ reset
 print "********************** file histograms.dem *********************"
 load "histograms.dem"
 load "histograms2.dem"
+load "label_stacked_histograms.dem"
 reset
+
+print "********************** file boxclusters.dem *********************"
+load "boxclusters.dem"
 
 print "********************** file array.dem *********************"
 load "array.dem"
@@ -347,6 +390,10 @@ print "********************** file circles.dem *********************"
 load "circles.dem"
 reset
 
+print "********************** file armillary.dem *********************"
+load "armillary.dem"
+reset
+
 print "********************** file ellipses_style.dem *********************"
 load "ellipses_style.dem"
 reset
@@ -358,10 +405,23 @@ reset
 print "********************** file custom_key.dem *********************"
 load "custom_key.dem"
 load "nokey.dem"
+load "keyentry.dem"
+reset
+
+print "********************** file walls.dem *********************"
+load "walls.dem"
+reset
+
+print "********************** file boxes3d.dem *********************"
+load "boxes3d.dem"
 reset
 
 print "********************** file borders.dem *********************"
 load "borders.dem"
+reset
+
+print "********************** file columnhead.dem *********************"
+load "columnhead.dem"
 reset
 
 print "********************** file margins.dem *********************"
@@ -372,8 +432,9 @@ print "********************** file rectangle.dem *********************"
 load "rectangle.dem"
 reset
 
-print "********************** file clipobject.dem *********************"
+print "********************** clipping *********************"
 load "clipobject.dem"
+load "clip_radial.dem"
 reset
 
 print "********************** file approximate.dem *********************"
@@ -391,6 +452,16 @@ load "nonlinear3.dem"
 load "nonlinear4.dem"
 load "nonlinear5.dem"
 load "nonlinear6.dem"
+load "logscale_clipping.dem"
+reset
+
+print "********************** linked axes **************************"
+load "linked_autoscale.dem"
+
+
+
+print "********************** file map_projection.dem *********************"
+load "map_projection.dem"
 reset
 
 print "********************** file transparent.dem *********************"
@@ -402,5 +473,18 @@ load "transparent_solids.dem"
 
 print "********************** file pm3d_lighting.dem *********************"
 load "pm3d_lighting.dem"
-pause 5
-reset
+
+print "********************** file polygons.dem *********************"
+load "polygons.dem"
+
+print "********************** file vplot.dem *********************"
+load "vplot.dem"
+
+print "********************** file isosurface.dem *********************"
+load "isosurface.dem"
+
+print "********************** file voxel.dem *********************"
+load "voxel.dem"
+
+pause 3
+reset session

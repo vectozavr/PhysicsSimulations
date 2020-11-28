@@ -1,160 +1,313 @@
+Notes on the gnuplot help files and documentation.
+--------------------------------------------------
 
-The Gnuplot Plotting Utility
-****************************
+Gnuplot documentation is available in three ways:
 
- Gnuplot is a command-line driven interactive function plotting utility
-for linux, OSX, MSWin, VMS, and many other platforms.  The software is
-copyrighted but freely distributed (i.e., you don't have to pay for it).
-It was originally intended as graphical program to allow scientists
-and students to visualize mathematical functions and data.  Gnuplot
-supports many different types of terminals, plotters, and printers
-(including many color devices, and pseudo-devices like LaTeX) and is
-easily extensible to include new devices.  
+1 - interactively, within gnuplot
+2 - as a printed document. 
+3 - as a manual page, through the Unix man(1) facility
 
- The "GNU" in gnuplot is NOT related to the Free Software Foundation,
-the naming is just a coincidence (and a long story; see the gnuplot FAQ
-for details). Thus gnuplot is not covered by the GPL (GNU Public License)
-copyleft, but rather by its own copyright statement, included in all source
-code files. However, some of the associated drivers and support utilities
-are dual-licensed.
+The third form tells how to run gnuplot.
 
- Gnuplot handles both curves (2 dimensions) and surfaces (3 dimensions).
-Surfaces can be plotted as a mesh fitting the specified function, floating
-in the 3-d coordinate space, or as a contour plot on the x-y plane.
-For 2-d plots, there are also many plot styles including lines, points,
-boxes, heat maps, stacked histograms, and contoured projections of 3D data.
-Graphs may be labeled with arbitrary labels and arrows, axis labels, 
-a title, date and time, and a key.  The interface includes command-line
-editing and history on most platforms.
+The first two forms describe the inner workings, and contain equivalent
+information.  They derive their information from the file "gnuplot.doc",
+which is the master copy of gnuplot help information.  All other forms,
+except for the man page "gnuplot.1", are derived from it. 
 
- The new gnuplot user should begin by reading the general information
-available by typing `help` after running gnuplot. Then read about the
-`plot` command (type `help plot`).  The manual for gnuplot (which is a
-nicely formatted version of the on-line help information) is available
-as a PDF document, created via LaTeX.  Look at the docs/Makefile
-for other options for formatting the documentation.
+PostScript, PDF, or HTML versions of the manual can be created from the TeX 
+version if you have latex, pdflatex, and htlatex available, respectively.
 
- The gnuplot source code and executables may be copied and/or modified
-freely as long as the copyright messages are left intact.
+gnuplot.doc -> gnuplot.gih 
+            -> gnuplot.hlp
+            -> gnuplot.info
+            -> gnuplot.ipf
+            -> gnuplot.ms
+            -> gnuplot.rnh
+            -> gnuplot.rtf
+            -> wgnuplot.html
+            -> gnuplot.tex
+    	   	  	 	    		
+On Unix and MSDOS the interactive help is built into the
+program, and uses the file "gnuplot.gih" ('make gih').
 
-Copyright and Porting
-=====================
+On VMS, the interactive help is supplied by the system help facility,
+using the file "gnuplot.hlp".  This is built by default, either by 
+doc2hlp, or doc2rnh and RUNOFF which format gnuplot.doc for the VMS
+HELP indenting conventions.  The help file is placed in a help library, 
+"gnuplot.hlb" but it may be also be placed in one of the system-wide 
+help libraries, using lib/help ('help lib').  If VMS users prefer the 
+gnuplot interactive help facility to the system facility, this can be 
+easily changed by not defining NO_GIH.
 
- See the Copyright file for copyright conditions.
+The PDF and HTML versions of the gnuplot manual can include hyperlinks to
+demonstration plots.  There is a special makefile target "make pdf"
+to generate and include sample plots directly in the manual itself.
 
- Build instructions are in the INSTALL file.  Some additional
-information needed to port gnuplot to new platforms not covered by
-GNU autoconf can be found in the PORTING file. 
+Under EMACS, interactive help uses the file "gnuplot.info" ('make info').
 
- The code for gnuplot was written with portability in mind, and has been
-run on an amazing variety of operating systems and hardware over the years.
-However, the current code has not been tested on all those older platforms
-and some of the conditional code to support quirks of obsolete compilers
-and OS features has been removed.  You can expect that gnuplot will compile
-more or less out of the box on any system which has the GNU C compiler gcc
-or other ANSI-compliant C compiler.  Some specific [optional] drivers are
-written in C++ or lua.
+On OS/2, the Information Presentation Facility Compiler converts the
+file "gnuplot.ipf" to a "gnuplot.inf" file.
+
+The printed document is available in troff/nroff (ms) format, using
+the file "gnuplot.ms".  For nroff, use 'make nroff'. For troff, type
+'make ms' and then 'troff -ms gnuplot.ms' in whatever way you use troff.
+For groff (on linux), use  'groff -t -e -mgs gnuplot.ms'
+
+On MS-Windows, the Microsoft HTML help compiler converts the file
+"wgnuplot.html" to a 'chm' file which is used by the standard Windows
+help program. Hyperlinks and sample plots are included. Alternatively,
+the Microsoft help compiler converts the file "gnuplot.rtf" to a 'hlp'
+file.
+
+Manual entries for the terminals are not included in "gnuplot.doc";
+instead, each "driver.trm" file (in the directory /term) contains its
+own documentation section.  See "term/README" for details.
+
+When you build gnuplot, only some of the terminal drivers are loaded;
+these are selected in "term.h" by compiler directives specified in the
+makefile.  The interactive help generators use the same set of compiler
+directives in "term.h", and thus interactive help contains information
+for just those terminals actually loaded.
+
+The printed manual generators and the html generator contain information
+about all terminals.  This is accomplished by concatenating all of the
+".trm" files into a single one, "allterm.h".
+
+The file "termdoc.c" is used by each of the nine processing programs
+("doc2gih.c", etc.); it #includes either "term.h" or "allterm.h", as is
+appropriate.  If you wish to override the default decision about which
+terminals are to appear in the documentation, edit the appropriate target
+in the Makefile and add/remove -DALL_TERM_DOC to/from the compiler flags.
 
 
-Help and Bug Reports
-********************
+Description of the gnuplot.doc format:
+--------------------------------------
 
- Your primary place to go searching for help with gnuplot should
-be the project's webpage.  At the time of this writing, that's
+Here is an example of the DOC master help format:
 
-	http://gnuplot.sourceforge.net
+?
+1 gnuplot
+ GNUPLOT is a command-driven interactive function plotting program.  It
+ ...
+?exit
+2 exit
+ 'exit', 'quit' and ...
+?expressions
+2 expressions
+ In general, any mathematical expression accepted by C, ...
 
- It has links to a lot of material, including the project's development
-page, also at SourceForge:
+ Topics:
+ functions operators
+?expressions functions
+?functions
+3 functions
+ The functions in GNUPLOT are ...
 
-	http://sourceforge.net/projects/gnuplot/
+ Topics:
+ abs acos arg ...
+?expressions functions abs
+?functions abs
+?abs
+4 abs
+ This function returns the absolute value of its argument.  The
+ returned value is of the same type as the argument. 
+?expressions functions acos
+?functions acos
+?acos
+4 acos
+ This function returns the arc cosine (inverse cosine) of its
+ argument.  'acos' returns its argument in radians. 
 
- Note that since gnuplot has nothing to do with the GNU project, please
-don't ask them for help or information about gnuplot; also, please
-don't ask us about GNU stuff.
 
- Please note that all bug reports should include the machine you are
-using, the operating system and it's version, plotting devices, and
-the version of gnuplot that you are running.  If you could add such
-information to any messages on the Usenet newsgroup or the other
-mailing lists and trackers, that'd be nice, too.
+Some notes about the format:
+----------------------------
+Remember that all text must be able to be processed by gnuplot, VMS,
+ nroff, troff, info, itl, and latex, and always do something reasonable. 
+The first column is reserved for control characters.
+Text does not start in the first column.
+Lines that start in column 2 may be typeset by LaTeX.
+Lines that have a space in column 2 are to be printed in a verbatim
+ environment by LaTeX.
+Tables must have a space in column 2.
+Do NOT use tabs in the help file.
+Conversion from this format to vax .hlp file involves removal of
+ lines starting with [?@#$%] (see doc2hlp). VMS uses the numbers
+ to represent a tree. 
+Conversion from this format to gnuplot .gih file involves removal of
+ lines starting with [0-9@#$%] (see doc2gih). Gnuplot matches your
+ help query against the ? lines to find the help information.
+ Multiple ? lines for one text block constitute synonyms. The most
+ specific should be first, eg 'expressions functions' before 'functions'.
+ Spaces are allowed here, but should be single.
+Backquote pairs are converted by the doc2tex program into boldface;
+ that is, `some text` is converted to {\bf some text}. Be sure to pair
+ the backquotes, or the whole document will be boldface! doc2ms converts
+ `` pairs to \fB...\fR, except inside tables : for the moment, this
+ has to be done manually on the lines starting %, but we ought to
+ find some way to allow tables to be entered just the once !
 
+Control characters in first column:
+?    used by .gih format, for builtin interactive help - keyword
+0-9  used by VMS help and by doc2{tex,ms,html} formatters to define level,keyword
+@    used by doc2{tex,ms,rnh} to define table start/end
+#    used by doc2tex: table entry
+#TeX used by doc2tex: LaTeX command to be inserted in output stream (e.g. \newpage)
+#b   bulleted list entry
+##   continuation of bulleted item      
+=    used by doc2tex: index entry
+F    used by doc2{tex,html}: embedded figure (followed by base name of the pdf file)
+%    used by doc2ms: table entry
+^    used by doc2{tex,html}: hypertext link / HTML code
+<    the help from the terminal driver files is inserted at this point.
+C    comment (mainly for RCS ID line)
+C#   reserved form of comment (used internally by termdoc.c)
+
+
+Tables:
+-------
+
+Here is a sample table:
+
+@start table - first is interactive cleartext form
+     Symbol       Example      Explanation
+       ?:          a?b:c     ternary operation
+#\begin{tabular}{|ccl|} \hline
+#\multicolumn{3}{|c|}{Ternary Operator} \\
+#Symbol & Example & Explanation \\ \hline
+#\verb~?:~ & \verb~a?b:c~ & ternary operation\\
+%c c l .
+%Symbol@Example@Explanation
+%_
+%?:@a?b:c@* ternary operation
+
+@end table
+
+"doc2tex" and "doc2ms" are the formats that do something with tables
+other than copy them verbatim.  It is best to bracket a table in a
+"@start table"/"@end table" pair.
+
+Inside the "@start"/"@end" block are three independent sets of commands:
+those that begin with "#" will be processed by "doc2tex" only, those
+that begin with "%" will be processed by "doc2ms" only, and all others
+will be copied verbatim by all other "doc2"s.  So the commands may be
+shuffled together, as long as the order of each of the three sets is
+unchanged.  That is, the example could be written this way without any
+effect on the result:
+
+@start table - first is interactive cleartext form
+#\begin{tabular}{|ccl|} \hline
+%c c l .
+#\multicolumn{3}{|c|}{Ternary Operator} \\
+%Symbol@Example@Explanation
+     Symbol       Example      Explanation
+#Symbol & Example & Explanation \\ \hline
+%_
+       ?:          a?b:c     ternary operation
+#\verb~?:~ & \verb~a?b:c~ & ternary operation\\
+%?:@a?b:c@* ternary operation
+
+@end table
+
+In LaTeX, the command "\begin{tabular}{|ccl|} \hline" creates a
+three-column table having the first two columns centered, the third column
+left-justified, a vertical line at each side, and a horizontal line drawn
+first.  Thus the table will be enclosed in a box ("doc2tex" provides the
+closing "\hline").  A double-backslash is a line skip.  In the table
+entries themselves, the ampersand is the column separator.  If any LaTeX
+special characters are in the table, they must be written within "\verb"
+constructs, as is the case with the question mark in the example.
+
+In nroff, the command "c c l ." creates a three-column table justified
+the same way as the LaTeX table discussed above.  The ampersand is the
+column separator.
+
+
+Rules for stylistic consistency (courtesy Jens Emmerich):
+---------------------------------------------------------
+
+0. General
+
+   * Use your brain -- the reader has one, too (at least in theory).
+
+   * Format according to the logical structure, not according to
+     visual charm.
+
+   * Keep things short.  Don't split lines without a good reason.  Many
+     people still use 24 line terminals/screens.  Backslashify lines
+     only in code examples.
+
+
+1. Verbatim lines: start column and line length 
+
+   * Verbatim text starts in column 8 (7 spaces before the text).  The
+     reason is that "Syntax:" is 7 and "Examples:" is 9 characters
+     wide.  Adding the space in column 1 we have 1 resp. 3 characters
+     "overlap" in the online text versions, which is still easy to
+     read as all commands are at least 3 characters long.  This does
+     not apply to the "interactive clear text form"-tables.
+
+   * The rightmost used column is column 73 (counting from 1).  This
+     allows LaTeX formatted documents with only slightly wider text
+     than default, which adds to readability.
+
+2. Line spacing
+
+   * An empty line goes before "Syntax:" and "Example:", but not after
+     them.  Without these keywords, add an empty line before verbatim
+     lines if they are not embedded in a sentence.
+
+   * Leave blank lines within verbatim environments only if it is
+     really needed for clarity.
+
+   * Verbatim environments are separated from the following text by a
+     blank line, but not if they are embedded in a sentence.
+
+   * Short explanations within examples can be embedded within
+     comments if they are really short, otherwise use "normal" text
+     (beginning at column 2) and leave no blank lines between the text
+     and the example.
+
+3. Spaces around braces 
+
+   * In general don't put a space after an opening "{" or before a
+     closing brace "}".  This makes everything wider and harder to
+     spot.
+
+   * Do insert a space in the following situations:
+     
+     - where it adds clarity to nesting levels >=3 of braces; usually
+       only one brace for the outermost brace on a particular line 
+       (see 'set grid')
+     
+     - on multiple line optional constructs (see 'set xtics')
+
+   * Separate multiple optional constructs by a space.
+
+   * Don't separate them if they belong together. (see 'set title')
+
+   * Do separate them if they belong together but require a space in
+     between (see 'set ticscale').
+
+   * Part of these rules are really a consequence of gnuplot's
+     inconsistent syntax.
+
+4. Placing and spaces around "|"
+
+   * Place a space before and after the "|".  Otherwise the
+     alternatives tend to optically 'melt' and they are harder to
+     read. 
+
+   * Keep or-expressions on one line, if possible.
+
+   * On multi-line expressions place the "|" at the beginning of the
+     next line rather than the end of the first.  This makes it easier
+     to see that the expression continues.  Align the first components;
+     this requires indenting the first line a bit further (see 'set
+     cntrparam').
  
-Usenet
-======
+5. Comma-separated optional argument lists
 
- Additional help can be obtained from the USENET newsgroup
-
-        comp.graphics.apps.gnuplot.
-
- This newsgroup is the first place to ask for routine help.  It used to be
-gatewayed bi-directionally to the info-gnuplot mailing list, but that
-had to be stopped when we moved the mailing lists off Dartmouth.
+   * Place the space before the opening brace rather within the braces
+     after the comma (as one normally does) (see 'set isosamples').
 
 
-Mailing Lists
-=============
-
- As of gnuplot-4.0, the gnuplot mailing lists have moved away from
-their old home at Dartmouth College (thanks, guys!) to the project's
-general new development site provided by SourceForge.net.  To 
-subscribe to these new mailing lists, use the Web Interface provided
-by SourceForge.net:
-	
-	http://sourceforge.net/mail/?group_id=2055
-
- The main lists you may be interested in are "gnuplot-info" and 
-"gnuplot-bugs".  "gnuplot-info" is for general discussion and
-questions about how to use the program.  But as noted above,
-using the Usenet newsgroup for this kind of communication is 
-almost certainly better both for you and for us.
-
- "gnuplot-bugs" is NOT an appropriate place to ask questions on how to
-solve a gnuplot problem or even to report a bug that you haven't
-investigated personally.  It is far more likely you'll get the help
-you need for this kind of problem from comp.graphics.apps.gnuplot
-or the gnuplot-info mailing list.
-
- Using "gnuplot-bugs" is also slightly disfavoured, because it makes it
-hard for us to keep track what bugs are currently under investigation,
-and hard for you to check if maybe the bug you've found has already
-been reported by somebody else before.  We would thus like to ask to
-you please use the "Bug Tracker" system that is part of gnuplot's
-development web site at SourceForge.net instead of this mailing list.
-
- If you found a fix already, pleast post it in "diff -c" or "diff -u"
-format done against the most current official version of gnuplot or
-the latest alpha or beta release of the next version.  All major
-modifications should include documentation and, if new features were
-added, a demo file.  Finally, it is much easier to integrate smaller
-stepwise modifications rather than one gigantic diff file which
-represented months of changes.  
-
- There are separate tracking systems for Feature Requests and proposed
-patches that implement new features, also hosted at SourceForge.  
-
- Discussions about plans for new features or other significant changes
-should be announced and discussed on the developers' mailing list,
-gnuplot-beta, which is also hosted by SourceForge.net.
-
-
-Where to get updates to gnuplot
-===============================
-
- Congratulations on getting this version of gnuplot! Unfortunately, it
-may not be the most recent version ("you never know where this version
-has been!"). You can be sure that it IS the most recent version by
-checking one of the official distribution sites, guaranteed to be kept
-up to date (of course, if you got this file from one of those sites,
-you don't need to check!).
-
- To hear automatically about future releases (and other gnuplot news),
-read the newsgroup; see above.
-
-----
-
-                                        -Thomas Williams-
-                                        -Alex Woo-
-                                        -David Denholm-
-                                        -Lars Hecking-
-					-Ethan Merritt-

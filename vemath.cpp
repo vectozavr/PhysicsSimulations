@@ -18,7 +18,23 @@ bool vemath::saveVectorPoint2DToFile(const std::vector<vemath::Point2D> &data, c
 
     N = N==0 ? data.size() : N;
     for(int i = 0; i < N; i++) {
-        _ofstream << data[i].x << "   " << data[i].y << std::endl;
+        _ofstream << data[i].x << "\t" << data[i].y << std::endl;
+    }
+
+    _ofstream.close();
+    return true;
+}
+
+bool vemath::saveVectorPoint3DToFile(const std::vector<std::vector<Point3D>> &data, const std::string &fileName, unsigned long long N) {
+    std::ofstream _ofstream(fileName);
+    if (!_ofstream.is_open())
+        return false;
+
+    N = N==0 ? data.size() : N;
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < data[i].size(); j++)
+            _ofstream << data[i][j].x << "\t" << data[i][j].y << "\t" << data[i][j].z << std::endl;
+        _ofstream << std::endl;
     }
 
     _ofstream.close();
@@ -122,12 +138,30 @@ void vemath::convolution(const ComplexPlot& data1, const ComplexPlot& data2, Com
     }
 }
 
-void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross) {
+void vemath::crossCorrelation(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& crossCor) {
     ComplexPlot inv_data1;
-    for(int k = data1.size()-1; k >= 0; k--)
-        inv_data1.push(data1.v_c[k].first, data1.v_c[k].second);
+    //for(int k = data1.size()-1; k >= 0; k--)
+    //    inv_data1.push(data1.v_c[k].first, data1.v_c[k].second);
 
-    convolution(inv_data1, data2, cross);
+    //for(int i = 0; i < data1.size(); i++) {
+    //    inv_data1.push(data1.v_c[i].first, 0);
+    //    for(int j = 0; j < data1.size(); j++) {
+    //        if(i + j < data2.size())
+    //            inv_data1.v_c[i].second += data1.v_c[j].second * data2.v_c[i + j].second;
+    //    }
+    //}
+
+    ComplexPlot data1_SPECTRA;
+    ComplexPlot data2_SPECTRA;
+
+    ComplexPlot data1_data2_cross;
+
+    fourierTransform(data1, data1_SPECTRA);
+    fourierTransform(data2, data2_SPECTRA);
+
+    cross(data1_SPECTRA, data2_SPECTRA, data1_data2_cross);
+
+    inverseFourierTransform(data1_data2_cross, crossCor);
 }
 
 void vemath::highFilter(const ComplexPlot& in, ComplexPlot& out, int freq) {

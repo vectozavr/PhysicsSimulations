@@ -13,19 +13,6 @@
 using namespace std;
 using namespace vemath;
 
-std::vector<int> colorInterpolate(double progress) {
-    std::vector<int> result_color = {0, 0, 255};
-
-    if((progress <= 0) || (progress >= 1))
-        return (progress <= 0) ? result_color : std::vector<int>{255,0,0};
-    int i = 0;
-    for(i = 0; progress > (double)(i+1)/4; i++)
-        result_color[(i+1)%3] = (i%2 == 0) ? 255 : 0;
-    result_color[(i+1)%3] = (i%2 == 0) ? (4*progress - i)*255 : (1 + i-4*progress)*255;
-
-    return result_color;
-}
-
 void drawScene(sf::RenderWindow& window, vector<vector<sf::Color>>& scene) {
     for(int i = 0; i < scene.size(); i++) {
         for(int k = 0; k < scene[i].size(); k++) {
@@ -151,8 +138,8 @@ int main() {
                     //double potential = twoPotentialTape(position);  // two tapes
 
                     if(potential < 0) potential *= -1;
-                    vector<int> res_color = colorInterpolate((potential));
-                    colors.emplace_back(static_cast<sf::Uint8>(res_color[0]), static_cast<sf::Uint8>(res_color[1]), static_cast<sf::Uint8>(res_color[2]));
+                    Color res_color = colorInterpolation(potential);
+                    colors.emplace_back(sf::Color(res_color.r, res_color.g, res_color.b));
                 }
                 scene.push_back(colors);
             }

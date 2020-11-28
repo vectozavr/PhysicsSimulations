@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.16)
 
 project(PhysicsSimulations)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_library(vemath SHARED vemath.h vemath.cpp)
 
@@ -38,6 +38,13 @@ add_executable(PREDATOR_PREY predatorPrey.cpp)
 
 add_executable(RIGID_SYSTEM rigidSystem.cpp)
 add_executable(SWEEP_METHOD sweepMethod.cpp)
+
+#Crank–Nicolson method Inverse iteration Spectral density
+add_executable(CRANK_NICOLSON_METHOD crankNicolsonMethod.cpp)
+add_executable(INVERSE_ITERATION inverseIteration.cpp)
+add_executable(SPECTRAL_DENSITY spectralDensity.cpp)
+
+add_executable(COURSE_TASK courseTask.cpp)
 
 # SFML Librares
 ##
@@ -85,6 +92,11 @@ target_link_libraries(KOSHI_PROBLEM vemath)
 target_link_libraries(PREDATOR_PREY vemath)
 target_link_libraries(RIGID_SYSTEM vemath)
 target_link_libraries(SWEEP_METHOD vemath)
+
+target_link_libraries(CRANK_NICOLSON_METHOD sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+target_link_libraries(INVERSE_ITERATION vemath)
+target_link_libraries(SPECTRAL_DENSITY vemath)
+target_link_libraries(COURSE_TASK vemath)
 # fftw
 # target_link_libraries(main ${CMAKE_SOURCE_DIR}/libbingitup.a)
 

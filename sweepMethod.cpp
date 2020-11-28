@@ -21,7 +21,7 @@ int main() {
     double x_0 = 0;
     double x_N = PI;
     // initial conditions
-    double y_0 = 1;
+    double y_0 = 1.0f;
     double y_N = 0.5f;
     // integration step
     double h = 0.001;
@@ -84,6 +84,6 @@ int main() {
     saveVectorPoint2DToFile(y_SW_err.real(), "y_SW_err.dat");
 
     GnuplotPipe gp;
-    //gp.sendLine(R"(plot "y_SW.dat" with lines, "y_A.dat" with lines)");
-    gp.sendLine(R"(plot "y_SW_err.dat" with lines)");
+    gp.sendLine(R"(plot "y_SW.dat" with lines, "y_A.dat" with lines)");
+    //gp.sendLine(R"(plot "y_SW_err.dat" with lines)");
 }

@@ -1,6 +1,3 @@
-#
-# $Id: world.cor,v 1.4 1993/09/27 17:12:03 alex Exp $
-#
 # Gnuplot world correspondences.  Feel free to check for and update
 # your site; especially if it represents a new location or you
 # know more precise coordinates for a site.  A (?) indicates
@@ -78,5 +75,5 @@
 7 51           # University of Cologne, Federal Republic of Germany
 7 51.5         # Fraunhofer Institut, Duisburg, Germany
 8 48           # Freiburg im Br.  (Federal Republic of Germany)
-8 52           # Univesity of Dortmund, Federal Republic of Germany
+8 52           # University of Dortmund, Federal Republic of Germany
 11.5 48        # Technische Universitaet Muenchen, Munich, Germany

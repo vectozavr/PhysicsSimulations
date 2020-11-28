@@ -13,7 +13,12 @@
 #include <functional>
 #include "settings.h"
 
-typedef std::complex<double> comp;
+struct Color {
+    unsigned char r; ///< Red component
+    unsigned char g; ///< Green component
+    unsigned char b; ///< Blue component
+    unsigned char a; ///< Alpha (opacity) component
+};
 
 namespace vemath {
     // struct Point2D allows you to do simple calculations with vectors really fast and comfortably.
@@ -195,6 +200,9 @@ namespace vemath {
     // add some noise to 2D plot <data> with amplitude <noiseAmplitude>
     void addNoise(ComplexPlot& data, double noiseAmplitude = 0.1, int seed = 1234);
 
+    // save 3D plot from <data> to "filename"
+    bool saveVectorPoint3DToFile(const std::vector<std::vector<Point3D>> &data, const std::string &fileName = "data.dat", unsigned long long N = 0);
+
     //cross
     void cross(const ComplexPlot& data1, const ComplexPlot& data2, ComplexPlot& cross);
 
@@ -208,6 +216,19 @@ namespace vemath {
     double maxy(const ComplexPlot& data);
 
     [[nodiscard]] Point3D randomDirection(int seed = 1234);
+
+    Color colorInterpolation(double progress) {
+        std::vector<int> result_color = {0, 0, 255};
+
+        if((progress <= 0) || (progress >= 1))
+            return (progress <= 0) ? Color{0,0,255} : Color{255,0,0};
+        int i = 0;
+        for(i = 0; progress > (double)(i+1)/4; i++)
+            result_color[(i+1)%3] = (i%2 == 0) ? 255 : 0;
+        result_color[(i+1)%3] = (i%2 == 0) ? (4*progress - i)*255 : (1 + i-4*progress)*255;
+
+        return Color{static_cast<unsigned char>(result_color[0]), static_cast<unsigned char>(result_color[1]), static_cast<unsigned char>(result_color[2])};
+    }
 
     /*
     // fftw library

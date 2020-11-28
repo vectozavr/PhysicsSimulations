@@ -90,15 +90,15 @@ int main() {
     ComplexPlot u_EX_err; ComplexPlot u_IM_err;
     ComplexPlot v_EX_err; ComplexPlot v_IM_err;
 
-    double alpha = 1;
-    double betta = 5000;
+    double alpha = 1.0f ;
+    double betta = 0.01f;
 
     double u_0 = 2.0f*alpha + betta;
     double v_0 = -(alpha + betta);
     double t_0 = 0;
-    double t_N = 0.3;
+    double t_N = 10;
 
-    double h = 0.00001; // Шаг интегрирования
+    double h = 0.001; // Шаг интегрирования
 
     solution(u_A, v_A, t_0, t_N, alpha, betta, h);
 
@@ -127,10 +127,10 @@ int main() {
 
     GnuplotPipe gp;
 
-    //gp.sendLine(R"(set xrange [-15:15])");
+    //gp.sendLine(R"(set xrange [-0.1:0.1])");
     //gp.sendLine(R"(set yrange [-10:10])");
     //gp.sendLine(R"(plot "u_A.dat" with lines, "v_A.dat" with lines, "u_EX.dat" with lines, "v_EX.dat" with lines, "u_IM.dat" with lines, "v_IM.dat" with lines)");
-    gp.sendLine(R"(plot "u_IM_err.dat" with lines, "v_IM_err.dat" with lines)");
+    gp.sendLine(R"(plot "u_A.dat" with lines, "v_A.dat" with lines)");
 
     /*
     string plot_text = "plot ";

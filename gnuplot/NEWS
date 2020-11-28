@@ -1,198 +1,78 @@
-Changes in 5.2.8
-================
-* CHANGE user-visible GPVAL_TERM_HCHAR GPVAL_TERM_VCHAR (help debug font issues)
-* CHANGE placement of ylabel (compromise 5.2.7 and earlier versions) (Bug #2181)
-* CHANGE make strstrt() aware of UTF8, e.g. strstrt("αβγ5", "5") returns 4
-* FIX "set timestamp" from "save" must not include a justification (Bug #2178)
-* FIX set cntrparam levels increment <base>, <factor> for logscale z (Bug #2183)
-* FIX character pointtypes should inherit plot coloring like normal pointtypes
-* FIX bad autoscaling of linked y2 axis (Bug #2186)
-* FIX prevent infinite loop from unbounded interation in a non-data plot command
-* FIX dimensions reported by "stats matrix every" (Bug #2189)
-* FIX extent of boxplot whiskers could be off by one point (Bug #2106)
-* FIX mix unbounded iteration and functions in a single plot command (Bug #2201)
-* FIX reverse history search with readline=builtin (Bug #2209)
-* FIX qt: suppress off-by-one ysize (Bug #1759)
-* FIX cairo: suppress off-by-one ysize (Bug #1759)
-* FIX gd: apply alpha to brushstroke lines (Bug #2117)
-* FIX tikz: fixes to accommodate lua 5.3 and newer pgf
-* FIX wxt: ExportToFile widget disabled in persist mode (Bug #2185)
-* FIX qt: handling of modifier keys (ctrl alt shift) for keyboard events
-* FIX wxt: handling of modifier keys (ctrl alt shift) for keyboard events
-* FIX fig: dashtype "solid" was not passed through correctly to transfig
-* FIX gd: incorrect line spacing of multiline label (Bug #2215)
+Changes in 5.4
+==============
+* NEW support for 64-bit integer arithmetic
+* NEW support for voxel grids
+* NEW plot ... with table if <expression>
+* NEW "set walls" command to show xy xz and yz planes in 3D plots
+* NEW "set clip radial" for line segments in polar mode plots
+* NEW "splot ... with isosurface"
+* NEW "splot ... with circles"
+* NEW "splot ... with boxes"
+* NEW "plot ... with arrows"
+* NEW "plot ... with polygons"
+* NEW "set view projection {xz|yz}"
+* NEW "set datafile columnheaders"
+* NEW per-plot fillcolor and fillstyle for pm3d surfaces
+* NEW allow separate color column with dgrid3d surfaces (but not color splines)
+* NEW string function trim(" padded string ") removes leading and trailing whitespace
+* NEW unicode escape sequences \U+hhhh
+* NEW order N Bessel functions of 1st and 2nd kind (besjn besyn)
+* NEW modified Bessel functions I0 (besi0) and I1 (besi1)
+* NEW modified Bessel function of order n (besin)
+* NEW "set object polygon depthsort" as an alternative to front/back/behind
+* NEW "set pixmap" object-like bitmap images from png/gif/jpeg input files
+* NEW overflow avoidance extends range of arguments handled by complex division
+* NEW largely extended pcl5 terminal supports PCL5e/PCL5c printers
+* NEW revised pstricks and texdraw LaTeX terminals
+* NEW extended dospc terminal (DOS32/OpenWatcom)
+* NEW extended svga terminal using the (M)GRX library (DOS32/DJGPP)
+* NEW heavily revised fig terminal
+* NEW LaTeX terminal pict2e uses the LaTeX2e pict2e environment
+* NEW Left-click on hypertext label will copy text to clipboard (wxt qt)
+* NEW smooth option "zsort" controls order that points are plotting in
+* NEW multiple textbox styles
+* NEW Time/date input recognizes format %p to handle am/pm field
+* EXPERIMENTAL "set mouse mouseformat function <stringval_from_xy(x,y)>"
+* EXPERIMENTAL load $DATABLOCK
+* CHANGE revised syntax for plot style "with parallelaxes"
+* CHANGE deprecate command "reread"
+* CHANGE remove deprecated command "update"
+* CHANGE remove deprecated option "thru"
+* CHANGE special case optimization of nonlinear code to speed up logscale
+* CHANGE windows terminal can print using Direct2D
+* CHANGE windows terminal supports color fonts (Direct2D)
+* CHANGE arrow head size can be decoupled from arrow size
+* CHANGE apply trange to sampling on pseudofile '+'
+* CHANGE move tgif terminal to "legacy" status; build only if configured
+* CHANGE imaginary values from the using spec of a 2D plot are treated as NaN
+* CHANGE remove compile option EXTENDED_COLOR_SPECS used only by vgagl.trm
+* CHANGE remove linux and vgagl terminals
+* CHANGE remove undocumented EXPERIMENTAL option for pm3d filled contours
+* CHANGE print to datablock expands embedded \n into a separate block entry
+* CHANGE boxplot outliers affect autoscaling only if they are enabled
+* CHANGE remove latex, emtex, eepic, and tpic terminals from default build
+* CHANGE pm3d quadrangles are by default clipped smoothly to zrange
+* CHANGE `set offset` is ignored when the axis range is not autoscaled
+* FIX allow mixed use of in-key plot titles and manually placed titles
+* FIX open/close path for polygons
+* FIX several stability issues of the caca terminal
+* FIX gd terminals: rendering of white lines with lw > 1
+* FIX do not reapply "set offset" on refresh or scrolling event
+* FIX for negative relative time format with leading element zero
 
-Changes in 5.2.7
-================
-* NEW "set pm3d noclipcb" will skip drawing quadrangles with color < cbmin
-* NEW pm terminal supports utf8, dashed lines, bold/italic text
-* NEW imaginary component of array values is available to "using" in column 3
-* NEW gnuplot --slow may help use of qt terminal with slow system font server
-* CHANGE splot "with points pt 0" acts like "with dots"
-* CHANGE (tikz) improved default interpretation of gnuplot arrowhead style
-* CHANGE teach hidden3d to handle double-headed vectors (arrowstyle "heads")
-* CHANGE "unset title" or "reset" resets all title properties to default
-* CHANGE font names passed to enhanced text processing may be in quotes
-* CHANGE cairo terminals accept fractional font sizes
-* CHANGE "plot with table" does not output trailing field separator
-* CHANGE better centering for clustered histograms
-* CHANGE clear STATS_* variables before performing analysis
-* CHANGE cairo, libgd, and svg terminals handle LT_NODRAW by not drawing at all
-* CHANGE svg terminal clickable icons are in-line data rather than external refs
-* CHANGE revise space allocated for ylabel; allow text justification for ylabel
-* CHANGE reduce overhead, making it feasible to have 10^6 hypertext labels
-* CHANGE heavily revised fig terminal
-* FIX "plot with table" unnecessarily limited string column output to 60 chars 
-* FIX (windows) make sure graph window is shown even if the program is "hidden"
-* FIX hidden3d mode was not correctly dealing with arrowstyle backhead
-* FIX sprintf in 'using' spec must not clobber numeric locale
-* FIX tikz - request for polygon with 0 vertices could hang terminal
-* FIX lua/tikz - do not attempt to ftruncate output being piped through stdout
-* FIX tkcanvas - do not attempt to ftruncate output being piped through stdout
-* FIX handle NaN values in input stream to "stats FOO matrix"
-* FIX prevent extra read past the end of a datablock holding matrix data
-* FIX pm - issues in box and polygon fill, (wide) lines, enhanced text, images
-* FIX dropped character in piped input stream if plot window is manually closed
-* FIX extraneous dots and potential segfault from splot with contour labels
-* FIX boxplots - color sequence correctly starts with specified linetype
-* FIX incomplete initialization led to segfault from "gnuplot -c foo.gp baz"
-* FIX Allow "pm3d depthorder base" to handle 3D boxes with logscale z
-
-Changes in 5.2.6
-================
-* NEW keyword "keyentry" places an entry in the key without actually plotting
-* NEW "set style boxplot medianlinewidth <lw>"
-* CHANGE drop non-working support for CIE/XYZ color space
-* CHANGE strptime ignores content read with format a/A/w/W
-* FIX various corner-case bugs and overruns found by fuzzing
-* FIX revise waitforinput in x11 terminal
-* FIX revise waitforinput and terminal close events in qt terminal
-* FIX revise waitforinput and new window events in monothreaded wxt terminal
-* FIX lua.trm compatibility with lua version 5.3
-* FIX error line reporting inside an if/else bracketed clause
-* FIX error in date conversion for times within a nanosecond of a year boundary
-
-Changes in 5.2.5
-================
-* NEW "set pm3d depthorder base" sorts pm3d quadrangles by projecting to z=0
-* NEW "set jitter vertical" displaces y coordinate rather than x coordinate
-* NEW array size can be determined automatically from the initializer
-* CHANGE place titles along x axis in plots with columnstacked histograms
-* CHANGE equivalent slope constraint for mcs splines at both ends of the range
-* CHANGE numerical arguments to "call" are stored in ARG1..ARGn as strings
-* CHANGE numerical arguments to "call" are stored in ARGV[n] as complex
-* CHANGE treat imaginary values plotted from a using spec as UNDEFINED (NaN)
-* CHANGE allow "reset" between plots in a multiplot layout
-* CHANGE Deprecate linux and vgagl terminals (to be removed in 5.3)
-* CHANGE placement of axis and tic labels in 3D projections on to xz or yz plane
-* CHANGE default to ./configure --without-wx-multithreading
-* FIX parametric function plots did not work with logscale x (regression in 5.2.0-4)
-* FIX polar mode "set trange" was assumed to use radians, now it tracks "set angle"
-* FIX clip polar grid lines and ticks to x/y range limits
-* FIX clipping of plot "with lines" when axes are nonlinear (regression from 5.0)
-* FIX clipping of all elements in finanacebars/candlesticks/boxplots
-* FIX clipping of 3D splot "with labels"
-* FIX strange interaction of "noautoscale" with blank data lines
-* FIX alignment of boxed text to center for eps/cairolatex
-* FIX incompatibility of "pm3d depthorder" and rgb color taken from data column
-* FIX aqua terminal font changes in enhanced text mode
-
-Changes in 5.2.4
-================
-* NEW "call" parameters ARG1, ARG2, ... are also present as ARGV[1]...ARGV[ARGC]
-* CHANGE generalize the test for missing data flag in input data
-* CHANGE "set []range writeback" is now essentially always in effect
-* CHANGE consistent placement of timestamp at true bottom of page
-* FIX spurious evaluation of logscale coordinates as UNDEFINED
-* FIX column header title assignments for histogram with errorbars
-* FIX re-implement "refresh" command to use autoscale writeback/restore
-* FIX font-handling bug; line-spacing of previous font still in effect
-* FIX post, svg, dumb terminals: early fontsize initialization
-
-Changes in 5.2.3
-================
+New features introduced to 5.2 in patchlevel releases
+=====================================================
 * NEW "set grid {no}vertical" adds grid lines in the xz and xz planes
 * NEW "set cntrparam {firstlinetype N} {{un}sorted}"
-* CHANGE drop non-working support for YIQ color space
-* CHANGE expand \n characters when printing into a datablock
-* CHANGE allow contour plots to opt out of hidden3d processing
-* CHANGE special-case code to speed up handling of logscale axes
-* CHANGE do not write GPFUN_* variables to "save" output file
-* CHANGE default to density 100 for "set fs solid", 50 for "set fs transparent"
-* FIX potential buffer overflow in gprintf formats containing %%
-* FIX immediate response to ctrl-Z when libreadline is used for input
-* FIX warning messages inside a bracketed clause could trigger early exit
-* FIX tweak logscale tic range limits and minor tic generation intervals
-* FIX stats FOO using 'namedcolumn' name columnhead
-* FIX clipping of INRANGE->UNDEFINED line segments
-* FIX use of logscale y axis in "set view map" or "set pm3d map" modes
-* FIX placement of colorbox in "set view map" mode
-* FIX autoscaled axis range of logscale axes in "set view map" mode
-* FIX polar mode "with yerrorbars" error bars are radial, not vertical
-* FIX clipping of circles whose center is offscreen to the left or bottom
-* FIX snap to x=zero for function plot sampling does not apply to logscale x
-* FIX canvas terminal: apply both color and alpha channel to points and lines
-* FIX svg terminal: apply current color to dots
-* FIX qt terminal: include "notitle" plots in accounting for toggle operations
-* FIX svg terminal: point plot empty title produced spurious mousing directive
-* FIX tikz terminal: failed to recognize dashtype 1
-
-Changes in 5.2.2
-================
 * NEW set table separator {tab|comma|"char"} allows creation of csv files
 * NEW hotkey for changing azimuth in 3D plots with mousing
 * NEW splot ... with lines title at {beg|end}
 * NEW Rework gstrptime() to handle relative time formats tH tM tS
 * NEW command "set rgbmax <value>" controls interpretation of input RGB values
-* FIX allow mixed use of in-key plot titles and manually placed titles
-* FIX prevent runaway iterations of the form   plot for [i=start:*] ...
-* FIX handle in-line range limits for linked or nonlinear axes
-* FIX restore pre-5.2 interpretation of logscaled tic increment as a multiplier
-* FIX logscale tic placement is closer to that of versions before 5.2.0
-* FIX recheck inrange/outrange points after spline or bezier smoothing
-* FIX autoscaling of plots with linked axes where data is plotted on x2 or y2
-* FIX sampling on x2 if linked to x1;  e.g. plot sample [t=1:5:1] '+' axes x2y1
-* FIX empty range on logscale y axis is handled by auto-extending the range
-* FIX autoscaling xrange of stacked histograms
-
-Changes in 5.2.0
-================
-* NEW user-defined dashtypes in metapost terminal
-* NEW datablock contents may be accessed as an indexed array of strings
-* CHANGE allow explicit sample interval for u and v using pseudofile '++'
-* CHANGE decouple cbrange from color components in "with rgbimage"
-* FIX reconcile aspect ratio flags from "set view map" and "set view equal xy"
-* FIX "set key fixed" should be ignored in the case of "set view map"
-* FIX GPVAL_* variables were not being updated in "set table" mode
-* FIX evaluation of nested iteration containing an empty range
-* FIX bug in variant time_spec formats %tH %tM (undesired wrapping)
-
-Changes in 5.2.rc3
-==================
-* NEW "plot with table" can handle string-valued output columns
-* CHANGE add caca terminal documentation to the user manual
-* CHANGE revised output of "test" command
-* CHANGE use Mingw-w64 and MSVC popen rather than built-in "fake" popen
-* FIX copy environmental variable GNUTERM to internal variable on entry
-* FIX more consistent handling of plot 'with table'
-* FIX incorrect, possibly empty, command string was saved for previous fit
-* FIX ignore non-numeric values of potential dummy params used by "fit"
-* FIX autoscaling during refresh of volatile data plots "with vectors"
-
-Changes in 5.2.rc2
-==================
-* FIX terminal initialization must be done before executing ~/.gnuplot
-* FIX do not use LaTeX formatting in tabular output
-* FIX polar border should not be clipped to rectangular border
-* FIX raxis was truncated at R=0 if the axis direction was inverted
-* FIX sanity check to catch "plot '+' binary"
-* FIX sanity check for NULL format passed to gprintf
-* FIX sanity check inverse mapping function of set link and set nonlinear
-* FIX sanity check for empty image data structure
-* FIX segfault from corruption of timestamp text
-* FIX several unitialized variables (see Bug 1933)
-* FIX dumb term: linetype character distinction was lost if not in color mode 
-* CHANGE svg terminal option "fontscale" replaces obsolete "fsize"
+* NEW allow array size to be determined automatically from initializer
+* NEW "set pm3d noclipcb" will skip drawing quadrangles whose color is < cbmin
+* NEW imaginary component of array values is available to "using" in column 3
+* NEW "exit status <val>" exits program with user-provided status
 
 New features, changes and fixes in gnuplot version 5.2 (initial release)
 ========================================================================
@@ -229,11 +109,11 @@ New features, changes and fixes in gnuplot version 5.2 (initial release)
 * NEW    svg 'standalone' embeds images rather than including by reference
 * NEW    windows terminal supports saving graph as bitmap
 * NEW    windows graph windows can be docked to the wgnuplot text window
-* NEW    windows terminal Direct2D driver rather than GDI/GDI+ where possible
+* NEW    windows terminal has experimental Direct2D driver
 * NEW    wxt supports saving graph as EMF on Windows
 * NEW    wxt supports printing on Windows
-* NEW    dumb suports ANSI colors and filled polygons
-* NEW Optional sampling interval in range specifiers for pseudofiles '+' '++'
+* NEW    dumb supports ANSI colors and filled polygons
+* NEW Optional sampling interval in range specifier for pseudofile '+'
 * NEW gnuplot on Windows
 *        converts Unicode (BMP) input to current `set encoding`, including UTF-8
 *        is system DPI aware
@@ -316,7 +196,7 @@ Changes in 5.0.rc2
 New features, changes and fixes in gnuplot version 5.0
 ======================================================
 
-* NEW The dashtype property on any line can be seperately controlled
+* NEW The dashtype property on any line can be separately controlled
 * NEW custom dashtypes
 * NEW LFS support for datafiles
 * NEW timecolumn(col,"timeformat') now requires 2nd parameter, the format
@@ -731,7 +611,7 @@ Time-organized list of news until gnuplot 4.0:
 [3.8g]
 * CHANGE set label with any line type (colour), point type and point size
 * CHANGE use either two or five minitic steps, never 4 (in logscale)
-* CHANGE reject candlesticks/financebars plots of to few colums --- warn
+* CHANGE reject candlesticks/financebars plots of to few columns --- warn
   and then plot with "points", instead
 * NEW Hotkeys to access clipboard in MS Windows version
 * NEW set style [data | function] filledcurves {options}
@@ -743,7 +623,7 @@ Time-organized list of news until gnuplot 4.0:
 * FIXED PostScript font reencoding for non-default fonts
 * FIXED dgrid for logscaled axes
 * FIXED tic generation for axes that have |min/max| very close to 1
-* FIXED several "impossible" parse erros in "show" command.
+* FIXED several "impossible" parse errors in "show" command.
 * FIXED bounding box of PSLatex generated .eps files
 * (attempted) FIX: X11 deadlocks caused by stdio buffering vs. select()
 * FIXED baseline of "histeps" plots with logscaled or shifted y axis.
@@ -791,7 +671,7 @@ Time-organized list of news until gnuplot 4.0:
 * NEW hidden3d works with contour lines
 * NEW overprinting feature for PostScript revised
 * NEW Windows terminal now has linewidth support from inside gnuplot
-* NEW table terminal will output additional colums some plot styles
+* NEW table terminal will output additional columns with some plot styles
 * FIXED hidden3d display of tics and axes
 
 [3.8d]
@@ -973,7 +853,7 @@ CGM terminal mods:
 [3.7.0.6]
 * Petr Mikulik's OS/2 mouse patch integrated
 * 'make check' now runs demos non-interactively
-* Linux SVGA driver: don't drop root priviledge until VGA is initialised
+* Linux SVGA driver: don't drop root privilege until VGA is initialised
 * LaTeX tutorial updated for LaTeX2e
 * gnuplot-mode updated to 0.5e
 * old patches for postscript driver integrated:

@@ -59,7 +59,7 @@ if (0 == int('0x01')) \
    set label 99 at screen .05, screen .15 "If you see only black dots,\nthis means your platform does not \nsupport reading hexadecimal constants\nfrom a data file. Get a newer libc."
 
 splot 'rgb_variable.dat' using 1:2:3:(5*rand(0)):4 with points pt 7 ps variable lc rgb variable \
-      title "variable pointsize and rgb color read as hexidecimal"
+      title "variable pointsize and rgb color read as hexadecimal"
 
 pause -1 "Hit return to continue"
 set label 99 ""
@@ -125,7 +125,7 @@ splot '++' using 1:2:(f($1,$2)):(hsv2rgb($1,$2,1.0)) \
 pause -1 "Hit return to continue"
 
 set title "Explicit borders for pm3d tiling"
-set pm3d border lt black hidden3d
+set pm3d border lt black lw 1.5
 set sample 10
 set isosample 10
 replot
