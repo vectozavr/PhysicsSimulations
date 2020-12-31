@@ -37,6 +37,7 @@ namespace vemath {
         Point2D &operator+=(const Point2D &point2D) {
             this->x += point2D.x;
             this->y += point2D.y;
+            return *this;
         }
         Point2D &operator=(const Point2D &point2D) {
             this->x = point2D.x;
@@ -46,10 +47,12 @@ namespace vemath {
         Point2D &operator*=(double number) {
             this->x *= number;
             this->y *= number;
+            return *this;
         }
         Point2D &operator*(double number) {
             this->x *= number;
             this->y *= number;
+            return *this;
         }
         double operator*(const Point2D &point2D) const { return this->x * point2D.x + this->y * point2D.y; }
         Point2D operator-(const Point2D &point2D) const { return {this->x - point2D.x, this->y - point2D.y}; }
@@ -72,9 +75,9 @@ namespace vemath {
 
         double mass = 0;
 
-        Point3D& operator+=(const Point3D& point2D) { this->x += point2D.x; this->y += point2D.y; this->z += point2D.z; }
+        Point3D& operator+=(const Point3D& point2D) { this->x += point2D.x; this->y += point2D.y; this->z += point2D.z; return *this;}
         Point3D& operator=(const Point3D& point2D) { this->x = point2D.x; this->y = point2D.y; this->z = point2D.z; return *this; }
-        Point3D& operator*(double number) { this->x *= number; this->y *= number; this->z *= number;}
+        Point3D& operator*(double number) { this->x *= number; this->y *= number; this->z *= number; return *this;}
         Point3D operator-(const Point3D& point2D) const { return {this->x - point2D.x, this->y - point2D.y, this->z - point2D.z}; }
         Point3D operator+(const Point3D& point2D) const { return {this->x + point2D.x, this->y + point2D.y, this->z + point2D.z}; }
 
@@ -82,6 +85,7 @@ namespace vemath {
             this->x *= number;
             this->y *= number;
             this->z *= number;
+            return *this;
         }
 
         Point3D normalize() { return Point3D{this->x/abs(), this->y/abs(), this->z/abs()};}
@@ -97,6 +101,7 @@ namespace vemath {
         Complex &operator+=(const Complex &complex) {
             this->real += complex.real;
             this->imagine += complex.imagine;
+            return *this;
         }
 
         [[nodiscard]] double abs() const {return sqrt(real*real + imagine*imagine); }
