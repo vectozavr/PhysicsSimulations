@@ -72,8 +72,8 @@ int main() {
 
     // GRAPH PLOT
     GnuplotPipe gp;
-    gp.sendLine(R"(plot "plot4.dat" , "plot5.dat" , "plot6.dat" , "plot7.dat" , "plot8.dat" , "plot9.dat" , "plot10.dat" , "plot11.dat" , "plot12.dat" , "plot13.dat" , "plot14.dat" , "plot15.dat" )");
-
+    //gp.sendLine(R"(plot "plot4.dat" , "plot5.dat" , "plot6.dat" , "plot7.dat" , "plot8.dat" , "plot9.dat" , "plot10.dat" , "plot11.dat" , "plot12.dat" , "plot13.dat" , "plot14.dat" , "plot15.dat" )");
+    gp.sendLine(R"(plot "plot15.dat" with lines)");
     //gp.sendLine(R"(plot "plot5.dat" with lines, "plot6.dat" with lines, "plot22.dat" with lines)");
 
     //gp.sendLine(R"(plot "plot_errors.dat")");

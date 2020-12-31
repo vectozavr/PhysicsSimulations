@@ -17,6 +17,8 @@ add_executable(BROWNIAN_MOTION brownianMotion.cpp gnuplot.h)
 add_executable(ANY_RANDOM_GRAPH AnyRandomGraph.cpp gnuplot.h)
 add_executable(STATISTICS_IN_SILICON statisticsInSilicon.cpp gnuplot.h)
 
+add_executable(POINT_FRAC pointsFraq.cpp)
+
 
 add_executable(COVID19 covid19.cpp settings.h)
 
@@ -75,6 +77,10 @@ target_link_libraries(DIFF_EQUATION_1 vemath)
 
 target_link_libraries(COVID19 sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
 target_link_libraries(BROWNIAN_MOTION sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+
+target_link_libraries(POINT_FRAC sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+
+
 
 target_link_libraries(DISCRETE_FOURIER vemath)
 target_link_libraries(CONVOLUTION_AND_CROSS_CORELATION vemath)

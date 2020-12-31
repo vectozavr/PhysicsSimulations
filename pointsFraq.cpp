@@ -15,18 +15,12 @@ struct Point2D {
 };
 
 int randomPoint(unsigned count) {
-    return (int)count*rand()/RAND_MAX;
-}
-
-int whatTriangle(double probability1) {
-    if(rand() > probability1*RAND_MAX) {
-        return 2;
-    } else
-        return 1;
+    return floor((double)count*rand()/RAND_MAX);
 }
 
 void nextPoint(double& x, double& y) {
     float nextX, nextY;
+    /*
     float r = (float)rand()/RAND_MAX;
     if (r < 0.01) {         // Рост стебля
         nextX =  0;
@@ -41,15 +35,18 @@ void nextPoint(double& x, double& y) {
         nextX = -0.15 * x + 0.28 * y;
         nextY =  0.26 * x + 0.24 * y + 0.44;
     }
+     */
     x = nextX;
     y = nextY;
 }
 
 int main() {
-    int SCREEN_WIDTH    = 1920;
-    int SCREEN_HEIGHT   = 1080;
+    cout << floor(2.9) << endl;
 
-    srand(126);
+    int SCREEN_WIDTH    = 1080;
+    int SCREEN_HEIGHT   = 1920;
+
+    srand(12234);
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 4;
@@ -63,28 +60,17 @@ int main() {
     double r0 = 3;
     unsigned long long N    = 3;
     double totalTime        = 0;
-    double scale            = 80;
+    double scale            = 100;
 
     double probability1 = 0.8;
 
-    int r = 1;
+    int r = 3;
     int R = 8;
-
-    vector<Point2D> tr1;
-    vector<Point2D> tr2;
-
-    tr1.push_back({-0.95, 1.18 - 3});
-    tr1.push_back({-1.74, 2.95 - 3});
-    tr1.push_back({-4.98, 4.05 - 3});
-
-    tr2.push_back({0,  0 - 3});
-    tr2.push_back({6, 4 - 3});
-    tr2.push_back({7.5, 12.7 - 3});
 
     vector<Point2D> points;
     //points.push_back({0, 3});
     //points.push_back({-3.5, -1.5});
-    //points.push_back({3, -3});
+    //points.push_back({3, 2.8});
     //points.push_back({2, 1});
     //points.push_back({3, -2});
     //points.push_back({1.5, -3});
@@ -94,27 +80,12 @@ int main() {
 
     Point2D cur = {(points[0].x + points[1].x)/2, (points[0].y + points[1].y)/2};
 
-    //for(int k = 0; k < points.size(); k++) {
-    //    sf::CircleShape circle(R);
-    //    circle.setFillColor(sf::Color(255, 0, 0, 155));
-    //    circle.setPosition(SCREEN_WIDTH/2 + points[k].x*scale - R, SCREEN_HEIGHT/2 - points[k].y*scale - R);
-    //    window.draw(circle);
-    //}
-
-    sf::ConvexShape triangle1;
-    sf::ConvexShape triangle2;
-    triangle1.setPointCount(3);
-    triangle2.setPointCount(3);
-    for(int k = 0; k < 3; k++) {
-        triangle1.setPoint(k, sf::Vector2f(tr1[k].x*scale, -tr1[k].y*scale));
-        triangle2.setPoint(k, sf::Vector2f(tr2[k].x*scale, -tr2[k].y*scale));
+    for(int k = 0; k < points.size(); k++) {
+        sf::CircleShape circle(R);
+        circle.setFillColor(sf::Color(255, 0, 0, 155));
+        circle.setPosition(SCREEN_WIDTH/2 + points[k].x*scale - R, SCREEN_HEIGHT/2 - points[k].y*scale - R);
+        window.draw(circle);
     }
-    triangle1.setFillColor({255, 0, 0, 100});
-    triangle1.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    triangle2.setFillColor({0, 255, 0, 100});
-    triangle2.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    //window.draw(triangle1);
-    //window.draw(triangle2);
 
 
     int flag = 10000;
@@ -135,27 +106,25 @@ int main() {
                 window.close();
         }
 
-        //if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && (flag > 1500))
+        //if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && (flag > 15))
         {
+            //window.clear(sf::Color(255, 255, 255, 0));
+
             flag = 0;
             sf::CircleShape circle(r);
             circle.setFillColor(sf::Color(255, 0, 0, 100));
-            circle.setPosition(SCREEN_WIDTH / 2 + cur.x * scale,
-                               SCREEN_HEIGHT / 2 - cur.y * scale + 350);
+            circle.setPosition(SCREEN_WIDTH / 2 + cur.x * scale - r,SCREEN_HEIGHT / 2 - cur.y * scale - r);
             window.draw(circle);
 
-            int rand = randomPoint(tr1.size());
-            Point2D vecTranslation;
-            if(whatTriangle(probability1) == 1)
-                vecTranslation = {(tr1[rand].x - cur.x) / 2, (tr1[rand].y - cur.y) / 2};
-            else
-                vecTranslation = {(tr2[rand].x - cur.x) / 2, (tr2[rand].y - cur.y) / 2};
+            int rand = randomPoint(points.size());
+            //cout << points.size() << endl;
+            Point2D vecTranslation = {(points[rand].x - cur.x) / 2, (points[rand].y - cur.y) / 2};
 
-            //cur.x += vecTranslation.x;
-            //cur.y += vecTranslation.y;
-            nextPoint(cur.x, cur.y);
+            cur.x += vecTranslation.x;
+            cur.y += vecTranslation.y;
+            //nextPoint(cur.x, cur.y);
+            window.display();   // отображение
         }
-        window.display();   // отображение
         flag++;
         totalTime++;
 
