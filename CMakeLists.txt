@@ -103,7 +103,6 @@ target_link_libraries(RIGID_SYSTEM vemath)
 target_link_libraries(SWEEP_METHOD vemath)
 
 target_link_libraries(CRANK_NICOLSON_METHOD vemath)
-target_link_libraries(BURGERS_EQUATION vemath)
 target_link_libraries(INVERSE_ITERATION vemath)
 target_link_libraries(SPECTRAL_DENSITY vemath)
 target_link_libraries(COURSE_TASK vemath)

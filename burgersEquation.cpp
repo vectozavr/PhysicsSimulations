@@ -2,52 +2,31 @@
 // Created by Иван Ильин on 13.01.2021.
 //
 
-#include <cmath>
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "gnuplot.h"
-#include "vemath.h"
 
 using namespace std;
-using namespace vemath;
 
-void explicitMethod(vector<vector<Point3D>>& map, double e, double t_N = 5.0f, double h = 0.001, double tau  = 0.001) {
-    map.clear();
-    // the number of steps (calculated automatically)
-    int N = 1 + 10.0f / h;
-    int N_time = 1 + t_N / tau;
+struct Point3D {
+    double x = 0;
+    double y = 0;
+    double z = 0;
+};
 
-    // initial conditions
-    for(int i = 0; i < N_time; i++) {
-        map.push_back(vector<Point3D>(N));
-        map[i][0].z = 0;
-        map[i][0].x = 0;
-        map[i][0].y = i*tau;
+bool saveVectorPoint3DToFile(const std::vector<std::vector<Point3D>> &data, const std::string &fileName, unsigned long long N = 0) {
+    std::ofstream _ofstream(fileName);
+    if (!_ofstream.is_open())
+        return false;
 
-        map[i][N-1].z = 0;
-        map[i][N-1].x = 10;
-        map[i][N-1].y = i*tau;
-    }
-    for(int i = 0; i < N-1; i++) {
-        if ((i*h >= 1) && (i*h <= 2))
-            map[0][i].z = 1.0;
-        else if ((i*h >= 3) && (i*h <= 5))
-            map[0][i].z = 2.0;
-        else
-            map[0][i].z = 0.0;
-
-        map[0][i].y = 0;
-        map[0][i].x = i*h;
+    N = N==0 ? data.size() : N;
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < data[i].size(); j++)
+            _ofstream << data[i][j].x << "\t" << data[i][j].y << "\t" << data[i][j].z << std::endl;
+        _ofstream << std::endl;
     }
 
-    for(int m = 1; m < N_time; m++) {
-        for(int j = 1; j < N-1; j++) {
-            map[m][j].x = j*h;
-            map[m][j].y = m*tau;
-            map[m][j].z = tau*e*(map[m-1][j+1].z - 2*map[m-1][j].z + map[m-1][j-1].z)/(h*h) - tau*map[m-1][j].z*(map[m-1][j+1].z - map[m-1][j-1].z)/(2.0*h) + map[m-1][j].z;
-        }
-    }
-
+    _ofstream.close();
+    return true;
 }
 
 void crankNicolsonMethod(vector<vector<Point3D>>& map, double e, double t_N = 10.0f, double h = 0.001, double tau  = 0.001) {
@@ -144,7 +123,7 @@ int main() {
         e += de;
     }
 
-    crankNicolsonMethod(map, 0.5, t_N, 0.05, 0.05);
+    crankNicolsonMethod(map, 0.1, t_N, 0.05, 0.05);
     saveVectorPoint3DToFile(map, "map.dat");
     saveVectorPoint3DToFile(map_e, "map_e.dat");
 
@@ -153,6 +132,6 @@ int main() {
     gp.sendLine(R"(set xyplane relative 0)");
     gp.sendLine(R"(set view 60, 120)");
 
-    gp.sendLine(R"(splot "map_e.dat" w pm3d)");
+    gp.sendLine(R"(splot "map.dat" w pm3d)");
 }
 
