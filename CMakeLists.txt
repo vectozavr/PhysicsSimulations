@@ -45,6 +45,7 @@ add_executable(SWEEP_METHOD sweepMethod.cpp)
 
 #Crank–Nicolson method Inverse iteration Spectral density
 add_executable(CRANK_NICOLSON_METHOD crankNicolsonMethod.cpp)
+add_executable(BURGERS_EQUATION burgersEquation.cpp)
 add_executable(INVERSE_ITERATION inverseIteration.cpp)
 add_executable(SPECTRAL_DENSITY spectralDensity.cpp)
 
@@ -101,7 +102,8 @@ target_link_libraries(PREDATOR_PREY vemath)
 target_link_libraries(RIGID_SYSTEM vemath)
 target_link_libraries(SWEEP_METHOD vemath)
 
-target_link_libraries(CRANK_NICOLSON_METHOD sfml-audio sfml-network sfml-graphics sfml-window sfml-system vemath)
+target_link_libraries(CRANK_NICOLSON_METHOD vemath)
+target_link_libraries(BURGERS_EQUATION vemath)
 target_link_libraries(INVERSE_ITERATION vemath)
 target_link_libraries(SPECTRAL_DENSITY vemath)
 target_link_libraries(COURSE_TASK vemath)

@@ -3,7 +3,6 @@
 //
 
 #include <cmath>
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "gnuplot.h"
 #include "vemath.h"
@@ -94,12 +93,6 @@ int main() {
 
     vector<vector<Point3D>> map;
     crankNicolsonMethod(map, t_N, h, tau);
-
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 4;
-
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "NM", sf::Style::Default, settings);
-    window.clear(sf::Color(255, 255, 255, 0));
 
     cout << "N_time = " << map.size() << endl;
 
