@@ -3,7 +3,8 @@
 //
 
 #include <iostream>
-#include "gnuplot.h"
+#include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -127,11 +128,11 @@ int main() {
     saveVectorPoint3DToFile(map, "map.dat");
     saveVectorPoint3DToFile(map_e, "map_e.dat");
 
-    GnuplotPipe gp;
 
-    gp.sendLine(R"(set xyplane relative 0)");
-    gp.sendLine(R"(set view 60, 120)");
+    FILE* pipe = popen(R"(gnuplot -persist)", "w");
 
-    gp.sendLine(R"(splot "map.dat" w pm3d)");
+    fputs("set xyplane relative 0 \n", pipe);
+    fputs("set view 60, 120 \n", pipe);
+
+    fputs("splot \"map.dat\" w pm3d \n", pipe);
 }
-
